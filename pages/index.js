@@ -11,7 +11,7 @@ import Contract from "../artifacts/contracts/Voting.sol/Voting.json";
 export default function Home() {
 
   const { account, provider } = useEthersProvider();
-  const contractAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
+  const contractAddress = "0x080ABFf5A4e85df27626AB67Ae542a2343d0e0aC";
   console.log(contractAddress);
 
   useEffect(()=>{
