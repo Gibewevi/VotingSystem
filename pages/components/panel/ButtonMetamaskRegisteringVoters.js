@@ -5,7 +5,7 @@ import { useToast } from "@chakra-ui/react";
 import useEthersProvider from '../../../hooks/useEthersProvider';
 import { ethers } from 'ethers';
 
-export default function ButtonMetamaskBefore(){
+export default function ButtonMetamaskRegisteringVoters(){
 
     const [isLoading, setIsLoading] = useState(false);
     const { account, setAccount, provider } = useEthersProvider();

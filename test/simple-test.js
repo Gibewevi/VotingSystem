@@ -17,8 +17,8 @@ describe("Tests Voting", function(){
   })
 
   it('should be to modify the stepSession', async()=>{
-    let sessionStep = await this.deployedContract.setSessionStep(1);
-    expect(await this.deployedContract.getSessionStep()).to.equal(1);
+    let sessionStep = await this.deployedContract.setSessionStep(0);
+    expect(await this.deployedContract.getSessionStep()).to.equal(0);
   })
 
   it('should be to registering voters', async()=>{
@@ -42,7 +42,7 @@ describe("Tests Voting", function(){
 
 
   it('should not be registered if registeringVoters session not open', async()=>{
-    let sessionStep = 2;
+    let sessionStep = 1;
     await this.deployedContract.setSessionStep(sessionStep);
     await expect(this.deployedContract.RegisteringVoters()).to.be.revertedWith('registerVoters session has not started');
   })
@@ -59,7 +59,7 @@ describe("Tests Voting", function(){
   })
 
   it('should be modify sessionStep has VotingSessionStarted (3)', async()=> {
-    let sessionStep = 4;
+    let sessionStep = 3;
     await this.deployedContract.setSessionStep(sessionStep);
     expect(await this.deployedContract.getSessionStep()).to.equal(sessionStep);
   })
@@ -75,14 +75,14 @@ describe("Tests Voting", function(){
 
 
   it('should be vote proposal', async()=> {
-    let sessionStep = 5;
+    let sessionStep = 4;
     await this.deployedContract.setSessionStep(sessionStep);
     await this.deployedContract.getVotersHasVoted()
     await expect(await this.deployedContract.getVotersHasVoted()).to.be.true;
   })
 
   it('should be return winning proposal', async()=>{
-    let sessionStep = 6;
+    let sessionStep = 5;
     await this.deployedContract.setSessionStep(sessionStep);
     let num = await this.deployedContract.winningProposal();
     // IMPOSSIBLE

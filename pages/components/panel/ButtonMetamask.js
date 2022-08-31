@@ -9,8 +9,25 @@ export default function ButtonMetamask(){
 
     const [isLoading, setIsLoading] = useState(false);
     const { account, setAccount, provider } = useEthersProvider();
-    const [buttonAccount, setButtonAccount] = useState("Connect")
+    const [buttonAccount, setButtonAccount] = useState("Metamask");
+    const [buttonConnect, setButtonConnect] = useState(null);
     const toast = useToast();
+    const OWNER = 0xeE00566C5F3Fa4397a714667f559852c6Dd8616E;
+
+
+    useEffect(()=>{
+        if(account){
+            setButtonConnect(true);
+            voterNameInButtonMetamask();
+        } else(setButtonConnect(false))
+    })
+
+    function voterNameInButtonMetamask(){
+        if(account==OWNER){
+            setButtonAccount("Owner");
+        } else(setButtonAccount(account))
+    }
+
 
     const connectWallet = async() => {
         if(!hasMetamask()){
@@ -52,6 +69,6 @@ export default function ButtonMetamask(){
     }
 
     return(
-        <button onClick={() => connectWallet()} className="bg-white p-1 px-2 rounded-lg font-bold text-orange-800">{account ? account : "Metamask"}</button>
+        <button onClick={() => connectWallet()} className="bg-white p-1 px-2 rounded-lg font-bold text-orange-800">{buttonConnect ? buttonAccount : "Metamask"}</button>
     )
 }

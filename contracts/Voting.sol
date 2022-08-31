@@ -16,7 +16,6 @@ address public Owner;
 
     // Enum de sessions
     enum Step{
-        Before,
         RegisteringVoters,
         ProposalsRegistrationStarted,
         ProposalsRegistrationEnded,
