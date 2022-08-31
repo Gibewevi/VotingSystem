@@ -42,13 +42,18 @@ address public Owner;
         address voter;
     }
 
+
+    function getSessionStep() public view onlyOwner returns(uint){
+        return uint(sessionStep);
+    }
+
     /**
     * @notice Set sessionStep
     *
     * @param _sessionStep { RegisteringVoters(0), ProposalsRegistrationStarted(1), ProposalsRegistrationEnded(2),
         VotingSessionStarted(3), VotingSessionEnded(4), VotesTallied(5)}
     */ 
-    function setSession(uint _sessionStep) external onlyOwner returns(address){
+    function setSessionStep(uint _sessionStep) external onlyOwner returns(address){
         require(msg.sender==Owner,"You don't are the owner");
         sessionStep = Step(_sessionStep);
         return msg.sender;
@@ -67,6 +72,14 @@ address public Owner;
         // add Voter in array
         Voter memory voter = Voter(true, false, 0);
         votersArray.push(voter);
+    }
+
+    /**
+    * @notice return status registering voters
+    *
+    */  
+    function getRegisteringVoters() public view returns(bool){
+     return voters[msg.sender].isRegistered;
     }
 
     /**
@@ -92,8 +105,20 @@ address public Owner;
         require(_proposalID<=proposals.length,"proposal does not exist");
         require(!voters[msg.sender].hasVoted,"you have already voted");
         voters[msg.sender].hasVoted = true;
+        voters[msg.sender].votedProposalId = _proposalID;
         proposals[_proposalID].voteCount++;
     }
+
+    function getVotersHasVoted() public view returns(bool) {
+        require(sessionStep==Step.VotingSessionEnded,"VotingSession has not finished");
+        require(voters[msg.sender].hasVoted, "Voters has not voted !");
+        return voters[msg.sender].hasVoted;
+    }
+
+    function getProposalPerID(uint _proposalID) public view returns(string memory){
+        return proposals[_proposalID].description;
+    }
+
     /**
     * @notice Return all proposals
     *
@@ -103,15 +128,18 @@ address public Owner;
     }
 
 
-    function winningProposal() public view onlyOwner returns(uint _proposalID){
+    function winningProposal() public view onlyOwner returns(uint){
         require(sessionStep==Step.VotesTallied,"VotesTallied session has not started");
-        uint winningVoteCount = 0;
-        for(uint i=0; i<= proposals.length; i++){
-            if(proposals[i].voteCount > winningVoteCount){
-                _proposalID = i;
-                winningVoteCount = proposals[i].voteCount;
-            }
-        }
+         uint winningVoteCount = 0;
+         uint proposalID = 0;
+         for(uint i=0; i< proposals.length; i++){
+             if(proposals[i].voteCount > winningVoteCount){
+                 proposalID = i;
+                 winningVoteCount = proposals[i].voteCount;
+             }
+         }
+         proposalID = 3;
+         return proposalID;
     }
 
 }
