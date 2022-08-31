@@ -16,6 +16,7 @@ address public Owner;
 
     // Enum de sessions
     enum Step{
+        Before,
         RegisteringVoters,
         ProposalsRegistrationStarted,
         ProposalsRegistrationEnded,
@@ -43,7 +44,7 @@ address public Owner;
     }
 
 
-    function getSessionStep() public view onlyOwner returns(uint){
+    function getSessionStep() public view returns(uint){
         return uint(sessionStep);
     }
 
