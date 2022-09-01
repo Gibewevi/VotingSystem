@@ -8,6 +8,7 @@ const { INFURA, PRIVATE_KEY, ETHERSCAN_API_KEY } = process.env;
 
 
 /** @type import('hardhat/config').HardhatUserConfig */
+
 module.exports = {
   solidity: {
     version: "0.8.16",

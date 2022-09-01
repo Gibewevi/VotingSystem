@@ -1,9 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
-
-pragma solidity >=0.7.0 <0.9.0;
+pragma solidity ^0.8.12;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-
 
 contract Voting is Ownable {
 
@@ -42,7 +40,17 @@ address public Owner;
         address voter;
     }
 
+    // Event
+    event isStep(uint _step);
+    event isRegistering(address _address);
+    event isProposal(uint _proposalID, string _proposal);
+    event isVoted(uint _proposalID,address _address);
+    event isWinning(uint _proposalID);
 
+    /**
+    * @notice Return session step
+    *
+    */
     function getSessionStep() public view returns(uint){
         return uint(sessionStep);
     }
@@ -56,6 +64,7 @@ address public Owner;
     function setSessionStep(uint _sessionStep) external onlyOwner returns(address){
         require(msg.sender==Owner,"You don't are the owner");
         sessionStep = Step(_sessionStep);
+        emit isStep(_sessionStep);
         return msg.sender;
     }
 
@@ -72,6 +81,8 @@ address public Owner;
         // add Voter in array
         Voter memory voter = Voter(true, false, 0);
         votersArray.push(voter);
+        emit isRegistering(msg.sender);
+
     }
 
     /**
@@ -92,6 +103,7 @@ address public Owner;
         require(voters[msg.sender].isRegistered, "you are note registered");
         Proposal memory proposal = Proposal(_proposal,0,msg.sender);
         proposals.push(proposal);
+        emit isProposal(proposals.length,_proposal);
     }
 
     /**
@@ -107,12 +119,15 @@ address public Owner;
         voters[msg.sender].hasVoted = true;
         voters[msg.sender].votedProposalId = _proposalID;
         proposals[_proposalID].voteCount++;
-    }
+        emit isVoted(_proposalID,msg.sender);
 
-    function getVotersHasVoted() public view returns(bool) {
-        require(sessionStep==Step.VotingSessionEnded,"VotingSession has not finished");
-        require(voters[msg.sender].hasVoted, "Voters has not voted !");
-        return voters[msg.sender].hasVoted;
+    }
+    /**
+    * @notice Return bool hasVoted 
+    *
+    */
+    function getVotersHasVoted(address _address) public view returns(bool) {
+        return voters[_address].hasVoted;
     }
 
     function getProposalPerID(uint _proposalID) public view returns(string memory){
@@ -127,8 +142,11 @@ address public Owner;
         return proposals;
     }
 
-
-    function winningProposal() public view onlyOwner returns(uint){
+    /**
+    * @notice Return winning proposal
+    *
+    */ 
+    function winningProposal() public onlyOwner returns(uint){
         require(sessionStep==Step.VotesTallied,"VotesTallied session has not started");
          uint winningVoteCount = 0;
          uint proposalID = 0;
@@ -139,7 +157,7 @@ address public Owner;
              }
          }
          proposalID = 3;
+         emit isWinning(proposalID);
          return proposalID;
     }
-
 }

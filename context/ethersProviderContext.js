@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { hasMetamask } from '../utils/hasMetamask';
+import { hasMetamask } from './../utils/hasMetamask';
 import { ethers } from 'ethers';
 const EthersContext = React.createContext(null);
 

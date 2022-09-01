@@ -1,54 +1,60 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import Header from './components/Header'
-import RegisteringVoters from './components/panel/RegisteringVoters'
-import { ethers } from "ethers";
-import useEthersProvider from '../hooks/useEthersProvider';
 import { useEffect, useState } from 'react';
+
+import styles from '../styles/Home.module.css'
+import Header from './components/header/Header'
+import RegisteringVoters from './components/panel/RegisteringVoters'
+import ProposalsRegistrationStarted from './components/panel/ProposalsRegistrationStarted';
+
 import Contract from "../artifacts/contracts/Voting.sol/Voting.json";
+import useEthersProvider from '../hooks/useEthersProvider';
+import { ethers } from "ethers";
+
 
 export default function Home() {
 
   const { account, provider } = useEthersProvider();
-  const contractAddress = "0x472480557178E134C90040F0BdEB5320E3DE8C0C";
-  const [sessionStep,setSessionStep] = useState(0);
+  const contractAddress = "0xF72C905d6224E3f3E41527364c7bBc728d7bC70A";
+  const [sessionStep, setSessionStep] = useState(null);
 
 
   useEffect(()=>{
-    // ContractUpdate();
-    if(account){
-      getDatas();
+    if(account) {
+    console.log("connect");
+    checkStep();
+    getDatas();
     }
-    // ContractUpdate();
-  },[])
+  })
   
-  const ContractUpdate =() => {
-    var calc = setInterval(async()=> {
-      const contract = new ethers.Contract(contractAddress, Contract.abi, provider);
-        let stepBN = await contract.getSessionStep();
-        let step = stepBN.toNumber();
-        console.log(step);
-    }, 1000);
-}
-
+  // Initialisation step session
   const getDatas = async() => {
     const contract = new ethers.Contract(contractAddress, Contract.abi, provider);
     let stepBN = await contract.getSessionStep();
     let step = stepBN.toNumber();
+    setSessionStep(step);
   }
+
+  // Update stepSession
+  const checkStep = async() => {
+    const contract = new ethers.Contract(contractAddress, Contract.abi, provider);
+      contract.on("isStep",(step)=>{
+        let eventStep = step.toString();
+        setSessionStep(eventStep);
+      })
+    }
+
+
 
   return (
     <div className={styles.container}>
-        <Header />
+        <Header sessionStep={sessionStep}/>
         {(() => {
           switch(sessionStep) {
             case null:
-                return <RegisteringVoters />
+                return <span>CHARGEMENT IMPOSSIBLE</span>
             case 0:
-                return <RegisteringVoters />
+                return <RegisteringVoters contractAddress={contractAddress}/>
             case 1:
-                return <span>SESSION STEP 1</span>
+                return <ProposalsRegistrationStarted />
             case 2:
                 return <span>SESSION STEP 1</span>
             case 3:
