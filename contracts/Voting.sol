@@ -42,7 +42,7 @@ address public Owner;
 
     // Event
     event isStep(uint _step);
-    event isRegistering(address _address);
+    event isRegistering(address _address,bool _isRegistering, bool _hasVoted, uint _votedProposalId);
     event isProposal(uint _proposalID, string _proposal);
     event isVoted(uint _proposalID,address _address);
     event isWinning(uint _proposalID);
@@ -76,21 +76,17 @@ address public Owner;
         // Verify Voter is already registered and session is registered
         require(sessionStep==Step.RegisteringVoters,"registerVoters session has not started");
         require(!voters[msg.sender].isRegistered,"you are already registered");
-        voters[msg.sender].isRegistered = true;
-        voters[msg.sender].hasVoted = false;
-        // add Voter in array
-        Voter memory voter = Voter(true, false, 0);
-        votersArray.push(voter);
-        emit isRegistering(msg.sender);
-
+        voters[msg.sender] = Voter(true, false, 0);
+        emit isRegistering(msg.sender,true, false, 0);
     }
 
     /**
     * @notice return status registering voters
     *
+    * @param _voters address voter
     */  
-    function getRegisteringVoters() public view returns(bool){
-     return voters[msg.sender].isRegistered;
+    function getRegisteringVoters(address _voters) public view returns(bool){
+     return voters[_voters].isRegistered;
     }
 
     /**

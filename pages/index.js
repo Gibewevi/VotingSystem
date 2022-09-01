@@ -13,7 +13,7 @@ import { ethers } from "ethers";
 export default function Home() {
 
   const { account, provider } = useEthersProvider();
-  const contractAddress = "0xF72C905d6224E3f3E41527364c7bBc728d7bC70A";
+  const contractAddress = "0xCE6bA66ca7f9F3ce9eee13F25ae493D4ef2de1E6";
   const [sessionStep, setSessionStep] = useState(null);
 
 
@@ -62,7 +62,7 @@ export default function Home() {
             case 4:
                 return <span>SESSION STEP 1</span>
              default:
-               return <RegisteringVoters />
+               return <RegisteringVoters contractAddress={contractAddress}/>
           }
         })()}
     </div>

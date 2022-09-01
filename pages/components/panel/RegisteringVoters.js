@@ -6,6 +6,7 @@ import { useToast } from "@chakra-ui/react";
 
 export default function RegisteringVoters(props){
     const { account, provider } = useEthersProvider();
+    const contractAddress = props.contractAddress;
     const [buttonAccount, setButtonAccount] = useState(false);
     const [buttonStatusRegistered, setButtonStatusRegistered] = useState(false);
     const toast = useToast();
@@ -18,17 +19,22 @@ export default function RegisteringVoters(props){
     })
 
     const GetButtonStatusRegister = async() => {
-    const contract = new ethers.Contract(props.contractAddress, Contract.abi, provider);
-    let transaction = await contract.getRegisteringVoters();
+    const contract = new ethers.Contract(contractAddress, Contract.abi, provider);
+    console.log(account);
+    let transaction = await contract.getRegisteringVoters(account);
     console.log(transaction);
     }
 
     const eventRegistered = async() =>{
-        const contract = new ethers.Contract(props.contractAddress, Contract.abi, provider);
-        contract.on("isRegistering",(address)=>{
-        console.log('Event isRegistering');
-        console.log(address);
-        })
+        const contract = new ethers.Contract(contractAddress, Contract.abi, provider);
+            contract.on("isRegistering",(address,isRegistering, hasVoted, votedProposalID)=>{
+            console.log('------ Event isRegistering ------');
+            console.log(address);
+            console.log(isRegistering);
+            console.log(hasVoted);
+            console.log(votedProposalID);
+            console.log('------ End isRegistering ------');
+            })
     }
 
     const RegisteringVoters = async() =>{
