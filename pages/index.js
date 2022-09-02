@@ -4,7 +4,7 @@ import styles from '../styles/Home.module.css'
 import Header from './components/header/Header'
 import RegisteringVoters from './components/panel/RegisteringVoters'
 import ProposalsRegistrationStarted from './components/panel/ProposalsRegistrationStarted';
-
+import Footer from './components/Footer';
 import Contract from "../artifacts/contracts/Voting.sol/Voting.json";
 import useEthersProvider from '../hooks/useEthersProvider';
 import { ethers } from "ethers";
@@ -46,6 +46,7 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
+      <div className='h-screen w-full'>
         <Header sessionStep={sessionStep}/>
         {(() => {
           switch(sessionStep) {
@@ -65,6 +66,8 @@ export default function Home() {
                return <RegisteringVoters contractAddress={contractAddress}/>
           }
         })()}
+        <Footer />
+      </div>
     </div>
   )
 
