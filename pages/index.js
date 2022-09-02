@@ -19,7 +19,6 @@ export default function Home() {
 
   useEffect(()=>{
     if(account) {
-    console.log("connect");
     checkStep();
     getDatas();
     }
@@ -31,6 +30,7 @@ export default function Home() {
     let stepBN = await contract.getSessionStep();
     let step = stepBN.toNumber();
     setSessionStep(step);
+    console.log(step);
   }
 
   // Update stepSession
@@ -55,7 +55,7 @@ export default function Home() {
             case 0:
                 return <RegisteringVoters contractAddress={contractAddress}/>
             case 1:
-                return <ProposalsRegistrationStarted />
+                return <ProposalsRegistrationStarted contractAddress={contractAddress}/>
             case 2:
                 return <span>SESSION STEP 1</span>
             case 3:

@@ -12,13 +12,13 @@ export default function RegisteringVoters(props){
     const [isRegister, setIsRegister] = useState(false);
     const toast = useToast();
 
-    useEffect(()=>{
-        if(account){
-            getIsRegister();
-            eventRegistered();
-            setButtonAccount(true);
-        } else (setButtonAccount(false))
-    })
+    // useEffect(()=>{
+    //     if(account){
+    //         // getIsRegister();
+    //         // eventRegistered();
+    //         setButtonAccount(true);
+    //     } else (setButtonAccount(false))
+    // })
 
     const getIsRegister = async() => {
         const contract = new ethers.Contract(contractAddress, Contract.abi, provider);

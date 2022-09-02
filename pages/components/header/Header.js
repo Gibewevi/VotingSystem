@@ -39,11 +39,13 @@ export default function Header(props){
                 <div className="h-[300px] bg-header-style w-full">
                     <div className="max-w-7xl mx-auto h-full flex flex-row justify-center">
                         <h1 className="flex flex-col text-center justify-center items-center">
-                            <h1 className="flex flex-row h-[80px] justify-center items-center">
-                            <span className="font-black text-6xl text-slate-700 ">!</span>
-                                <span className="font-black text-6xl text-white ">VOTE</span>
-                                <span className="font-black text-7xl text-slate-700 mx-4  mb-1">IT</span>
-                            </h1>
+                            <div className="flex flex-row h-[80px] justify-center items-center">
+                                <h1 className="flex flex-row justify-center items-center h-[80px]">
+                                     <span className="font-black text-6xl text-slate-700 ">!</span>
+                                     <span className="font-black text-6xl text-white ">VOTE</span>
+                                     <span className="font-black text-7xl text-slate-700 mx-4  mb-1">IT</span>
+                                </h1>
+                            </div>
                             <span className="font-black text-5xl text-white">BLOCKCHAIN VOTING SYSTEM</span>
                             <span className="font-lighter text-xl tracking-widest ">WEB3 DECENTRALIZED</span>
                         </h1>
