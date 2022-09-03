@@ -2,18 +2,60 @@ import { useEffect, useState } from "react";
 import useEthersProvider from "../../../hooks/useEthersProvider";
 import Contract from "../../../artifacts/contracts/Voting.sol/Voting.json";
 import { ethers } from "ethers";
-    
+import { useToast } from "@chakra-ui/react";
 
 export default function ProposalsRegistrationStarted(props){
     const { account, provider } = useEthersProvider();
     const [isRegister,setIsRegister] = useState(null);
-    const [myProposalInput, setMyProposalInput] = useState("")
+    const [myProposalInput, setMyProposalInput] = useState("");
+    const [ProposalButton, setProposalButton] = useState(false);
+    const toast = useToast();
 
     function getInputValue(val){
         setMyProposalInput(val.target.value)
-        console.log(myProposalInput);
     }
 
+    useEffect(()=>{
+        if(account){
+             getIsRegister();
+             sendProposal();
+        }
+    })
+
+
+    const sendProposal = async()=> {
+        if(ProposalButton){
+            const signer = provider.getSigner();
+            const contract = new ethers.Contract(props.contractAddress, Contract.abi, signer);
+
+            try {
+                let proposal =  await contract.addProposal(myProposalInput);
+                await proposal.wait();
+                setProposalButton(false);
+                console.log("button "+ProposalButton);
+                toast({
+                    description: "Congratulations! You are send proposal.",
+                    status: "success",
+                    duration: 4000,
+                    isClosable: true
+                });
+            }
+            catch {
+                toast({
+                    description: "Oops... an error occured",
+                    status: "error",
+                    duration: 4000,
+                    isClosable: true
+                });
+            }
+    
+            contract.on("isProposal",(proposalLenght, proposal)=>{
+            console.log("proposalLenght "+proposalLenght);
+            console.log("proposal "+proposal);
+            console.log("button "+ProposalButton);
+            })
+        }
+    }
 
     const getIsRegister = async() => {
         const signer = provider.getSigner();
@@ -22,11 +64,7 @@ export default function ProposalsRegistrationStarted(props){
         setIsRegister(transaction);
     }
 
-    useEffect(()=>{
-        if(account){
-             getIsRegister();
-        }
-    })
+
     // Recuperer getregistered pour afficher le message :
     // - Vous n'etes pas enregistrer/ vous etes enregistrer
     // - patientez a la prochaine session.
@@ -64,12 +102,8 @@ export default function ProposalsRegistrationStarted(props){
                                 <span className="font-lighter text-2xl text-slate-800 tracking-wider mt-5"> to go to the next step.</span>
                             </span>
                             </div>
-
-                            <form className="w-full mt-5">
                                 <input type="text" onChange={getInputValue} name="proposal" className="border rounded-lg border-slate-300 placeholder-slate-300 w-full h-[60px] text-3xl px-4" placeholder="Your proposal"></input>
-                                <input type="submit" className="float-right mr-5 mt-5 bg-sky-500 max-w-[130px] p-2 px-3 rounded-lg font-black text-lg text-white"></input>  
-                            </form>
-
+                                <button onClick={()=>setProposalButton(true)} className="bg-red-400 p-4">Input</button>
                         </div>                     
                         )
                 case null:
