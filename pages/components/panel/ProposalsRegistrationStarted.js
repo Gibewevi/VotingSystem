@@ -7,6 +7,13 @@ import { ethers } from "ethers";
 export default function ProposalsRegistrationStarted(props){
     const { account, provider } = useEthersProvider();
     const [isRegister,setIsRegister] = useState(null);
+    const [myProposalInput, setMyProposalInput] = useState("")
+
+    function getInputValue(val){
+        setMyProposalInput(val.target.value)
+        console.log(myProposalInput);
+    }
+
 
     const getIsRegister = async() => {
         const signer = provider.getSigner();
@@ -59,7 +66,7 @@ export default function ProposalsRegistrationStarted(props){
                             </div>
 
                             <form className="w-full mt-5">
-                                <input type="text" name="proposal" className="border rounded-lg border-slate-300 placeholder-slate-300 w-full h-[60px] text-3xl px-4" placeholder="Your proposal"></input>
+                                <input type="text" onChange={getInputValue} name="proposal" className="border rounded-lg border-slate-300 placeholder-slate-300 w-full h-[60px] text-3xl px-4" placeholder="Your proposal"></input>
                                 <input type="submit" className="float-right mr-5 mt-5 bg-sky-500 max-w-[130px] p-2 px-3 rounded-lg font-black text-lg text-white"></input>  
                             </form>
 
