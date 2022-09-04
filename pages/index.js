@@ -4,6 +4,7 @@ import styles from '../styles/Home.module.css'
 import Header from './components/header/Header'
 import RegisteringVoters from './components/panel/RegisteringVoters'
 import ProposalsRegistrationStarted from './components/panel/ProposalsRegistrationStarted';
+import ProposalsRegistrationEnded from './components/panel/ProposalsRegistrationEnded';
 import Footer from './components/Footer';
 import Contract from "../artifacts/contracts/Voting.sol/Voting.json";
 import useEthersProvider from '../hooks/useEthersProvider';
@@ -57,7 +58,7 @@ export default function Home() {
             case 1:
                 return <ProposalsRegistrationStarted contractAddress={contractAddress}/>
             case 2:
-                return <span>SESSION STEP 1</span>
+                return <ProposalsRegistrationEnded />
             case 3:
                 return <span>SESSION STEP 1</span>
             case 4:
