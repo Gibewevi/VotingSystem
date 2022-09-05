@@ -17,6 +17,13 @@ export default function Header(props){
     })
 
 
+    const setStep = async(numberStep)=>{
+
+        const signer = provider.getSigner();
+        const contract = new ethers.Contract(props.contractAddress, Contract.abi, signer);
+        let step = await contract.setSessionStep(numberStep);
+    } 
+
     const StepUpdate = () => {
         if(props.sessionStep == 0){
             setSessionStep("Registering Voters");
@@ -45,12 +52,12 @@ export default function Header(props){
                 {ownerConnect ? 
                 <div className="w-full bg-subtle">
                     <div className="max-w-7xl h-[40px] mx-auto grid grid-cols-6 gap-2">
-                        <a href="" className="w-[150px] font-bold text-white text-center p-2">Registering</a>
-                        <a href="" className="w-[150px] font-bold text-white text-center p-2">Proposals Started</a>
-                        <a href="" className="w-[150px] font-bold text-white text-center p-2">Proposals Ended</a>
-                        <a href="" className="w-[150px] font-bold text-white text-center p-2">Voting Started</a>
-                        <a href="" className="w-[150px] font-bold text-white text-center p-2">Voting Ended</a>
-                        <a href="" className="w-[150px] font-bold text-white text-center p-2">Votes Tallied</a>
+                        <button onClick={()=>setStep(0)} className="w-[150px] font-bold text-white text-center p-2">Registering</button>
+                        <button onClick={()=>setStep(1)} className="w-[150px] font-bold text-white text-center p-2">Proposals Started</button>
+                        <button onClick={()=>setStep(2)} className="w-[150px] font-bold text-white text-center p-2">Proposals Ended</button>
+                        <button onClick={()=>setStep(3)} className="w-[150px] font-bold text-white text-center p-2">Voting Started</button>
+                        <button onClick={()=>setStep(4)} className="w-[150px] font-bold text-white text-center p-2">Voting Ended</button>
+                        <button onClick={()=>setStep(5)} className="w-[150px] font-bold text-white text-center p-2">Votes Tallied</button>
                     </div>
                 </div>                
                 : <span></span>
