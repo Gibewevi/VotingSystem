@@ -6,8 +6,14 @@ import Contract from "../../../artifacts/contracts/Voting.sol/Voting.json";
 
 export default function Header(props){
     const [sessionStep, setSessionStep] = useState(props.sessionStep);
+    const [ownerConnect, setOwnerConnect] = useState(null)
+    const { account, provider } = useEthersProvider();
+
     useEffect(()=>{
         StepUpdate();
+        if(account==props.ownerAddress){
+            setOwnerConnect(true)
+        } else (setOwnerConnect(false))
     })
 
 
@@ -36,6 +42,19 @@ export default function Header(props){
                     </div>
                     <ButtonMetamask />
                 </div>
+                {ownerConnect ? 
+                <div className="w-full bg-subtle">
+                    <div className="max-w-7xl h-[40px] mx-auto grid grid-cols-6 gap-2">
+                        <a href="" className="w-[150px] font-bold text-white text-center p-2">Registering</a>
+                        <a href="" className="w-[150px] font-bold text-white text-center p-2">Proposals Started</a>
+                        <a href="" className="w-[150px] font-bold text-white text-center p-2">Proposals Ended</a>
+                        <a href="" className="w-[150px] font-bold text-white text-center p-2">Voting Started</a>
+                        <a href="" className="w-[150px] font-bold text-white text-center p-2">Voting Ended</a>
+                        <a href="" className="w-[150px] font-bold text-white text-center p-2">Votes Tallied</a>
+                    </div>
+                </div>                
+                : <span></span>
+                }
                 <div className="h-[300px] bg-header-style w-full">
                     <div className="max-w-7xl mx-auto h-full flex flex-row justify-center">
                         <h1 className="flex flex-col text-center justify-center items-center">

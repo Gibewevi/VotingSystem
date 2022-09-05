@@ -9,3 +9,7 @@
 .bg-panel {
   background-image: linear-gradient(90deg, rgb(160, 222, 219),rgb(3, 165, 209));
 }
+
+.bg-subtle {
+  background-image: repeating-linear-gradient(45deg, rgba(226, 226, 226,0.06) 0px, rgba(226, 226, 226,0.06) 2px,transparent 2px, transparent 4px),linear-gradient(90deg, rgb(33,33,33),rgb(33,33,33));
+}

@@ -15,6 +15,7 @@ export default function Home() {
 
   const { account, provider } = useEthersProvider();
   const contractAddress = "0xCE6bA66ca7f9F3ce9eee13F25ae493D4ef2de1E6";
+  const ownerAddress = "0xeE00566C5F3Fa4397a714667f559852c6Dd8616E";
   const [sessionStep, setSessionStep] = useState(null);
 
 
@@ -48,7 +49,7 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <div className='h-screen w-full'>
-        <Header sessionStep={sessionStep}/>
+        <Header sessionStep={sessionStep} ownerAddress={ownerAddress}/>
         {(() => {
           switch(sessionStep) {
             case null:
