@@ -34,7 +34,6 @@ export default function Home() {
     let stepBN = await contract.getSessionStep();
     let step = stepBN.toNumber();
     setSessionStep(step);
-    console.log(step);
   }
 
   // Update stepSession
