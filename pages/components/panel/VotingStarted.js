@@ -7,34 +7,33 @@ import { render } from "react-dom";
 export default function VotingStarted(props){
     const { account, provider } = useEthersProvider();
     const contractAddress = props.contractAddress;
-    const [proposalsArray, setProposalsArray] = useState(null);
-    const proposals = new Array([]);
+    const [proposals, setProposals] = useState([]);
 
     useEffect(()=>{
         if(account){
-             ProposalArray();
+            ProposalArray();
         }
     })
 
     const ProposalArray = async()=>{
         const signer = provider.getSigner();
         const contract = new ethers.Contract(props.contractAddress, Contract.abi, provider);
-        proposals = await contract.getProposalsArray();
-        let proposalsLenght = proposals.length;
-        setProposalsArray(proposalsLenght);
-        // console.log(proposals[0].description);
+        const arrayProposal = await contract.getProposalsArray();
+        setProposals(arrayProposal);
     }
 
-
+    // const data = proposals.map((proposal) => {
+    //     <p key={proposal.id}>{proposal.description}</p>
+    // });
 
     return(
-        <section className="max-w-7xl mx-auto mt-[125px] flex flex-row justify-center items-center justify-between p-5">
-            <div className="grid gap-4 border border-2 border-red-400 w-1/2 p-4 mx-auto">
-                <div>
-                    {proposals.map((proposal, index)=>
-                    <p key={index}>{proposal.description}</p>
-                    )}
-                </div>
+        <section className="max-w-7xl mx-auto border border-slate-800 flex flex-row justify-center items-center justify-between p-5">
+            <div className="grid gap-2 border border-2 border-red-400 w-1/2 p-4">
+                {proposals.map((proposal) => (
+                    <div className="bg-teal-200 p-1 rounded-lg shadow-md">
+                        <p>{proposal.description}</p>
+                    </div>
+                    ))}
             </div>
         </section>
         )

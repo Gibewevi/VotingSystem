@@ -49,7 +49,7 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <div className='h-screen w-full'>
+      <div className=''>
         <Header sessionStep={sessionStep} ownerAddress={ownerAddress} contractAddress={contractAddress}/>
         {(() => {
           switch(sessionStep) {
