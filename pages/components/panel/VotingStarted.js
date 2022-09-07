@@ -22,6 +22,19 @@ export default function VotingStarted(props){
         setProposals(arrayProposal);
     }
 
+    const isVote = async(proposalID) => {
+        const signer = provider.getSigner();
+        const contract = new ethers.Contract(props.contractAddress, Contract.abi, signer);
+        const vote = contract.voteProposal(proposalID);
+
+        contract.on("isVoted",(_proposalID, address)=>{
+            console.log('------ isVoted ------');
+            console.log(_proposalID);
+            console.log(address);
+            console.log('------ isVoted ------');
+            })
+    }
+
     // const data = proposals.map((proposal) => {
     //     <p key={proposal.id}>{proposal.description}</p>
     // });
@@ -39,7 +52,7 @@ export default function VotingStarted(props){
                 <tbody>
                     <th className="border border-slate-200 shadow-md p-3">{proposal.voter}</th>
                     <th className="border border-slate-200 shadow-md p-3">{proposal.description}</th>
-                    <th><button className="shadow-lg bg-teal-400 rounded-lg px-2 p-1 text-white">Vote</button></th>
+                    <th><button onClick={()=>isVote(i)} className="shadow-lg bg-teal-400 rounded-lg px-2 p-1 text-white">Vote</button></th>
                 </tbody>
                  ))}
             </table>
