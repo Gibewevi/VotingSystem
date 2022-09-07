@@ -1,6 +1,6 @@
 export default function Footer(){
     return(
-            <footer className="bg-zinc-900 w-full h-[60px] absolute bottom-0">
+            <footer className="bg-zinc-900 w-full h-[60px]">
                 <div className="mx-auto h-full max-w-7xl flex flex-row justify-between justify-center items-center">
                     <div className="font-semibold text-white flex flex-col mx-2">
                         <span className="text-xl font-black">!VOTE IT</span>

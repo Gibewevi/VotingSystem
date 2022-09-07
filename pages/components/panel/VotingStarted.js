@@ -27,14 +27,24 @@ export default function VotingStarted(props){
     // });
 
     return(
-        <section className="max-w-7xl mx-auto border border-slate-800 flex flex-row justify-center items-center justify-between p-5">
-            <div className="grid gap-2 border border-2 border-red-400 w-1/2 p-4">
-                {proposals.map((proposal) => (
-                    <div className="bg-teal-200 p-1 rounded-lg shadow-md">
-                        <p>{proposal.description}</p>
-                    </div>
-                    ))}
-            </div>
+        <section className="max-w-7xl mx-auto flex flex-row justify-center items-center justify-between p-5">
+
+            <table className="auto border-separate border-spacing-x-6 border-spacing-y-3 p-2">
+                <thead>
+                    <th className="p-2 bg-slate-800 rounded-lg shadow-lg text-white font-black text-xl">account</th>
+                    <th className="bg-slate-800 rounded-lg shadow-lg text-white font-black text-xl">proposal</th>
+                    <th className="bg-teal-600 rounded-lg shadow-lg text-white font-black text-xl">voting</th>
+                </thead>
+                {proposals.map((proposal,i) => (  
+                <tbody>
+                    <th className="border border-slate-200 shadow-md p-3">{proposal.voter}</th>
+                    <th className="border border-slate-200 shadow-md p-3">{proposal.description}</th>
+                    <th><button className="shadow-lg bg-teal-400 rounded-lg px-2 p-1 text-white">Vote</button></th>
+                </tbody>
+                 ))}
+            </table>
+          
+    
         </section>
         )
 
