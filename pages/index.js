@@ -50,7 +50,7 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <div className='h-screen'>
+      <div className='min-h-screen'>
         <Header sessionStep={sessionStep} ownerAddress={ownerAddress} contractAddress={contractAddress}/>
         {(() => {
           switch(sessionStep) {
@@ -70,8 +70,8 @@ export default function Home() {
                return <RegisteringVoters contractAddress={contractAddress}/>
           }
         })()}
-        <Footer />
       </div>
+      <Footer />
     </div>
   )
 

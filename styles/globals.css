@@ -13,3 +13,7 @@
 .bg-subtle {
   background-image: repeating-linear-gradient(45deg, rgba(226, 226, 226,0.06) 0px, rgba(226, 226, 226,0.06) 2px,transparent 2px, transparent 4px),linear-gradient(90deg, rgb(33,33,33),rgb(33,33,33));
 }
+
+.bg-bluecircle {
+  background-image: linear-gradient(229deg, rgba(248, 248, 248, 0.04) 0%, rgba(248, 248, 248, 0.04) 54%,rgba(112, 112, 112, 0.04) 54%, rgba(112, 112, 112, 0.04) 100%),linear-gradient(239deg, rgba(252, 252, 252, 0.04) 0%, rgba(252, 252, 252, 0.04) 66%,rgba(111, 111, 111, 0.04) 66%, rgba(111, 111, 111, 0.04) 100%),linear-gradient(141deg, rgba(40, 40, 40, 0.04) 0%, rgba(40, 40, 40, 0.04) 44%,rgba(168, 168, 168, 0.04) 44%, rgba(168, 168, 168, 0.04) 100%),linear-gradient(287deg, rgba(40, 40, 40, 0.04) 0%, rgba(40, 40, 40, 0.04) 78%,rgba(141, 141, 141, 0.04) 78%, rgba(141, 141, 141, 0.04) 100%),linear-gradient(90deg, rgb(53, 166, 233),rgb(17, 240, 126));
+}

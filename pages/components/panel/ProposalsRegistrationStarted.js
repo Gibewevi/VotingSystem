@@ -86,7 +86,7 @@ export default function ProposalsRegistrationStarted(props){
                                 <span className="font-bold text-4xl text-slate-800 ">Congratulations!</span>
                                 <span className=" mx-5 font-semibold text-4xl text-teal-600 tracking-wide">You are registered.</span>
                             </h1>
-                            <span className="font-bold text-2xl text-slate-800 tracking-widest mt-8">Quick and easy.</span>
+                            <span className="font-semibold text-3xl text-slate-800 tracking-widest mt-8">Quick and easy.</span>
                             <div className="flex flex-col">
                             <span className="flex flex-row">
                                 <span className="mb-2 font-lighter text-2xl text-slate-800 tracking-wider mt-5">Make your</span>
