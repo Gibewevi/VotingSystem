@@ -47,13 +47,11 @@ export default function VotingStarted(props){
                     <th className="p-2 bg-slate-800 rounded-lg shadow-lg text-white font-black text-xl">account</th>
                     <th className="bg-slate-800 rounded-lg shadow-lg text-white font-black text-xl">proposal</th>
                     <th className="bg-teal-600 rounded-lg shadow-lg text-white font-black text-xl">voting</th>
-                    <th className="bg-teal-600 rounded-lg shadow-lg text-white font-black text-xl">voting</th>
                 </thead>
                 {proposals.map((proposal,i) => (  
                 <tbody>
                     <th className="border border-slate-200 shadow-md p-3">{proposal.voter}</th>
                     <th className="border border-slate-200 shadow-md p-3">{proposal.description}</th>
-                    <th className="border border-slate-200 shadow-md p-3">{proposal.voteCount.toNumber()}</th>
                     <th><button onClick={()=>isVote(i)} className="shadow-lg bg-teal-400 rounded-lg px-2 p-1 text-white">Vote</button></th>
                 </tbody>
                  ))}

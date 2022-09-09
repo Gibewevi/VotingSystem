@@ -2,13 +2,16 @@
 pragma solidity ^0.8.12;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract Voting is Ownable {
+contract Voting is Ownable, ERC20 {
+
+constructor(string memory tokenName, string memory tokenSymbol, uint totalSupply) ERC20(tokenName, tokenSymbol){
+_mint(msg.sender, totalSupply * (10**decimals()));
+}
+
 
 address public Owner;
-    constructor(){
-        Owner = msg.sender;
-    }
 
     mapping(address => Voter) public voters;
 
@@ -45,7 +48,7 @@ address public Owner;
     event isRegistering(address _address,bool _isRegistering, bool _hasVoted, uint _votedProposalId);
     event isProposal(uint _proposalID, string _proposal);
     event isVoted(uint _proposalID,address _address);
-    event isWinning(uint _proposalID);
+    event isWinning(uint _proposalID, string _proposalDescription, uint _voteNumber);
 
     /**
     * @notice Return session step
@@ -153,7 +156,7 @@ address public Owner;
              }
          }
          proposalID = 3;
-         emit isWinning(proposalID);
-         return proposalID;
+         emit isWinning(proposalID, proposals[proposalID].description, proposals[proposalID].voteCount);
+         return (proposalID);
     }
 }

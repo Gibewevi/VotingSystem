@@ -7,6 +7,7 @@ import ProposalsRegistrationStarted from './components/panel/ProposalsRegistrati
 import ProposalsRegistrationEnded from './components/panel/ProposalsRegistrationEnded';
 import VotingStarted from './components/panel/VotingStarted';
 import VotingEnded from './components/panel/VotingEnded';
+import VotesTallied from './components/panel/VotesTallied';
 import Footer from './components/Footer';
 import Contract from "../artifacts/contracts/Voting.sol/Voting.json";
 import useEthersProvider from '../hooks/useEthersProvider';
@@ -66,6 +67,8 @@ export default function Home() {
                 return <VotingStarted contractAddress={contractAddress}/>
             case 4:
                 return <VotingEnded />
+            case 5:
+                return <VotesTallied contractAddress={contractAddress}/>
              default:
                return <RegisteringVoters contractAddress={contractAddress}/>
           }
