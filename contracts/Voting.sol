@@ -5,13 +5,15 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract Voting is Ownable, ERC20 {
+address public Owner;
 
 constructor(string memory tokenName, string memory tokenSymbol, uint totalSupply) ERC20(tokenName, tokenSymbol){
-_mint(msg.sender, totalSupply * (10**decimals()));
+// _mint(msg.sender, totalSupply * (10**decimals()));
+Owner = msg.sender;
 }
 
 
-address public Owner;
+
 
     mapping(address => Voter) public voters;
 
@@ -33,7 +35,7 @@ address public Owner;
         uint votedProposalId;
     }
         
-    Voter[] public votersArray;
+    address[] public addressVoters;
     Proposal[] public proposals;
 
     // Proposal
@@ -71,6 +73,24 @@ address public Owner;
         return msg.sender;
     }
 
+
+    /**
+    * @notice Return all address
+    *
+    */  
+    function getAllAddress() public view returns (address[] memory){
+        return addressVoters;
+    }
+
+    function resetAllVotersMapping() public {
+        for(uint i=0 ; i<= addressVoters.length ; i++){
+            voters[addressVoters[i]].isRegistered = false;
+            voters[addressVoters[i]].hasVoted = false;
+            voters[addressVoters[i]].votedProposalId = 0;
+            addressVoters = new address[](0);
+        }
+    }
+
     /**
     * @notice Registered whitelist
     *
@@ -80,8 +100,13 @@ address public Owner;
         require(sessionStep==Step.RegisteringVoters,"registerVoters session has not started");
         require(!voters[msg.sender].isRegistered,"you are already registered");
         voters[msg.sender] = Voter(true, false, 0);
+        addressVoters.push(msg.sender);
         emit isRegistering(msg.sender,true, false, 0);
     }
+
+        bool isRegistered;
+        bool hasVoted;
+        uint votedProposalId;
 
     /**
     * @notice return status registering voters
@@ -141,6 +166,7 @@ address public Owner;
         return proposals;
     }
 
+
     /**
     * @notice Return winning proposal
     *
@@ -156,6 +182,7 @@ address public Owner;
              }
          }
          proposalID = 3;
+         resetAllVotersMapping();
          emit isWinning(proposalID, proposals[proposalID].description, proposals[proposalID].voteCount);
          return (proposalID);
     }
