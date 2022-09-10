@@ -13,29 +13,47 @@ export default function Header(props){
     useEffect(()=>{
         StepUpdate();
         if(account==props.ownerAddress){
-            setOwnerConnect(true)
-            eventBalance()
+            setOwnerConnect(true),
+            balanceOf(),
+            eventIsMint()
         } else if(account){
             setOwnerConnect(false),
-            eventBalance()
+            balanceOf(),
+            eventIsMint()
         }
     })
 
-
-    const eventBalance = async() =>{
-        // balance events
+    const winningProposal = async() => {
         const contract = new ethers.Contract(props.contractAddress, Contract.abi, provider);
-            contract.on("isMint",(amount, balance)=>{
-            setBalance(balance);
-            })
+        const winner = await contract.winningProposal();
+        console.log("winner "+winner);
     }
 
+
+    const eventIsMint = async() => {
+        const contract = new ethers.Contract(props.contractAddress, Contract.abi, provider);
+        contract.on("isMint",(amount, balanceOf)=>{
+            console.log("balance "+balanceOf);
+            setBalance(balanceOf);
+        })
+    }
+
+    const balanceOf = async() => {
+        const contract = new ethers.Contract(props.contractAddress, Contract.abi, provider);
+        const transaction = await contract.balanceOf(account);
+        setBalance(transaction.toNumber());
+    }
 
     const setStep = async(numberStep)=>{
 
         const signer = provider.getSigner();
         const contract = new ethers.Contract(props.contractAddress, Contract.abi, signer);
         let step = await contract.setSessionStep(numberStep);
+        await step.wait();
+        // return the proposal winner
+        if(step==5){
+            winningProposal();
+        }
     } 
 
     const StepUpdate = () => {
@@ -61,7 +79,10 @@ export default function Header(props){
                         <div className="animate-spin mx-3 bg-white w-7 h-7 rounded-full border-[5px] border-zinc-900 border-r-cyan-400"></div>
                         <span className="text-white font-bold">STATUS : {sessionStep}</span>
                     </div>
-                    <ButtonMetamask />
+                    <div className="flex flex-row justify-center items-center">
+                        <ButtonMetamask contractAddress={props.contractAddress}/>
+                        <button className="bg-teal-400 p-1 px-2 rounded-lg font-bold text-white ml-2">{balance+" VOT"}</button>
+                    </div>
                 </div>
                 {ownerConnect ? 
                 <div className="w-full bg-subtle">

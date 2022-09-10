@@ -56,7 +56,7 @@ Owner = msg.sender;
     *
     * @param _amount number of tokens offered
     */ 
-    function rewardVote(uint _amount) public {
+    function rewardVote(uint _amount) internal {
         require(!voters[msg.sender].hasVoted,"voters has already voted");
         _mint(msg.sender, _amount);
         uint balance = balanceOf(msg.sender);

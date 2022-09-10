@@ -3,9 +3,10 @@ import { useEffect } from 'react';
 import { hasMetamask } from '../../../utils/hasMetamask';
 import { useToast } from "@chakra-ui/react";
 import useEthersProvider from '../../../hooks/useEthersProvider';
+import Contract from "../../../artifacts/contracts/Voting.sol/Voting.json";
 import { ethers } from 'ethers';
 
-export default function ButtonMetamask(){
+export default function ButtonMetamask(props){
 
     const [isLoading, setIsLoading] = useState(false);
     const { account, setAccount, provider } = useEthersProvider();
@@ -28,7 +29,6 @@ export default function ButtonMetamask(){
         } else {
             let nameAccount = account.substring(0,5)+"..."+account.substring(account.length - 5, account.length);
             setButtonAccount(nameAccount);
-            console.log(nameAccount);
         } 
     }
 
