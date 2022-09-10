@@ -7,8 +7,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 contract Voting is Ownable, ERC20 {
 address public Owner;
 
-constructor(string memory tokenName, string memory tokenSymbol, uint totalSupply) ERC20(tokenName, tokenSymbol){
-// _mint(msg.sender, totalSupply * (10**decimals()));
+constructor(string memory tokenName, string memory tokenSymbol) ERC20(tokenName, tokenSymbol){
 Owner = msg.sender;
 }
 
@@ -16,6 +15,7 @@ Owner = msg.sender;
 
 
     mapping(address => Voter) public voters;
+    mapping(uint => Proposal) public proposalsWinning;
 
     // Enum de sessions
     enum Step{
@@ -37,6 +37,7 @@ Owner = msg.sender;
         
     address[] public addressVoters;
     Proposal[] public proposals;
+    uint[] public winnings;
 
     // Proposal
     struct Proposal {
@@ -51,9 +52,23 @@ Owner = msg.sender;
     event isProposal(uint _proposalID, string _proposal);
     event isVoted(uint _proposalID,address _address);
     event isWinning(uint _proposalID, string _proposalDescription, uint _voteNumber);
+    event isMint(uint _amount, uint _balanceOf);
 
     /**
-    * @notice Return session step
+    * @notice reward the voter
+    *
+    * @param _amount number of tokens offered
+    */ 
+    function rewardVote(uint _amount) public {
+        require(!voters[msg.sender].hasVoted,"voters has already voted");
+        _mint(msg.sender, _amount);
+        uint balance = balanceOf(msg.sender);
+        emit isMint(_amount, balance);
+    }
+
+
+    /**
+    * @notice return session step
     *
     */
     function getSessionStep() public view returns(uint){
@@ -61,7 +76,7 @@ Owner = msg.sender;
     }
 
     /**
-    * @notice Set sessionStep
+    * @notice set sessionStep
     *
     * @param _sessionStep { RegisteringVoters(0), ProposalsRegistrationStarted(1), ProposalsRegistrationEnded(2),
         VotingSessionStarted(3), VotingSessionEnded(4), VotesTallied(5)}
@@ -75,13 +90,17 @@ Owner = msg.sender;
 
 
     /**
-    * @notice Return all address
+    * @notice return all address
     *
     */  
     function getAllAddress() public view returns (address[] memory){
         return addressVoters;
     }
 
+    /**
+    * @notice reset mapping voters/proposals array
+    *
+    */
     function resetAllVotersMapping() public {
         for(uint i=0 ; i<= addressVoters.length ; i++){
             voters[addressVoters[i]].isRegistered = false;
@@ -92,7 +111,7 @@ Owner = msg.sender;
     }
 
     /**
-    * @notice Registered whitelist
+    * @notice registered whitelist
     *
     */   
     function RegisteringVoters() public {
@@ -118,7 +137,7 @@ Owner = msg.sender;
     }
 
     /**
-    * @notice Voter proposal string description
+    * @notice voter proposal string description
     *
     * @param _proposal description.
     */   
@@ -147,7 +166,7 @@ Owner = msg.sender;
 
     }
     /**
-    * @notice Return bool hasVoted 
+    * @notice return bool hasVoted 
     *
     */
     function getVotersHasVoted(address _address) public view returns(bool) {
@@ -159,7 +178,7 @@ Owner = msg.sender;
     }
 
     /**
-    * @notice Return all proposals
+    * @notice return all proposals
     *
     */   
     function getProposalsArray() external view returns(Proposal[] memory){
@@ -168,7 +187,7 @@ Owner = msg.sender;
 
 
     /**
-    * @notice Return winning proposal
+    * @notice return winning proposal and reset mapping and array
     *
     */ 
     function winningProposal() public onlyOwner returns(uint){
@@ -182,8 +201,20 @@ Owner = msg.sender;
              }
          }
          proposalID = 3;
+         winnings.push(winnings.length+1);
+         proposalsWinning[winnings.length] = proposals[proposalID];
+         /* reset mapping and array for the next vote */
          resetAllVotersMapping();
          emit isWinning(proposalID, proposals[proposalID].description, proposals[proposalID].voteCount);
          return (proposalID);
     }
+
+    /**
+    * @notice returns all winning proposals 
+    *
+    */ 
+    function getNumberProposalsWinning() public view returns(uint){
+        return winnings.length;
+    }
+
 }
