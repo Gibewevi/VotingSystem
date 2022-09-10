@@ -8,13 +8,27 @@ export default function Header(props){
     const [sessionStep, setSessionStep] = useState(props.sessionStep);
     const [ownerConnect, setOwnerConnect] = useState(null)
     const { account, provider } = useEthersProvider();
+    const [balance, setBalance] = useState(null);
 
     useEffect(()=>{
         StepUpdate();
         if(account==props.ownerAddress){
             setOwnerConnect(true)
-        } else (setOwnerConnect(false))
+            eventBalance()
+        } else if(account){
+            setOwnerConnect(false),
+            eventBalance()
+        }
     })
+
+
+    const eventBalance = async() =>{
+        // balance events
+        const contract = new ethers.Contract(props.contractAddress, Contract.abi, provider);
+            contract.on("isMint",(amount, balance)=>{
+            setBalance(balance);
+            })
+    }
 
 
     const setStep = async(numberStep)=>{

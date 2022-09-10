@@ -18,7 +18,7 @@ import { ethers } from "ethers";
 export default function Home() {
 
   const { account, provider } = useEthersProvider();
-  const contractAddress = "0xCE6bA66ca7f9F3ce9eee13F25ae493D4ef2de1E6";
+  const contractAddress = "0xF92da1eeC887F2B9039dE8b4f4A7703142f1fe92";
   const ownerAddress = "0xeE00566C5F3Fa4397a714667f559852c6Dd8616E";
   const [sessionStep, setSessionStep] = useState(null);
 

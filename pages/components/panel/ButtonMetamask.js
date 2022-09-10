@@ -25,7 +25,11 @@ export default function ButtonMetamask(){
     function voterNameInButtonMetamask(){
         if(account==OWNER){
             setButtonAccount("Owner");
-        } else(setButtonAccount(account))
+        } else {
+            let nameAccount = account.substring(0,5)+"..."+account.substring(account.length - 5, account.length);
+            setButtonAccount(nameAccount);
+            console.log(nameAccount);
+        } 
     }
 
 

@@ -9,9 +9,9 @@ const hre = require("hardhat");
 async function main() {
   
   const Contract = await hre.ethers.getContractFactory("Voting");
-  const contract = await Contract.deploy();
+  const contract = await Contract.deploy("voteIT","VOT");
 
-  await contract.deployed();
+  await contract.deployed("voteIT","VOT");
 
   console.log(
     `Le contract est bien deployé ${contract.address}`

@@ -11,9 +11,6 @@ constructor(string memory tokenName, string memory tokenSymbol) ERC20(tokenName,
 Owner = msg.sender;
 }
 
-
-
-
     mapping(address => Voter) public voters;
     mapping(uint => Proposal) public proposalsWinning;
 
@@ -201,6 +198,7 @@ Owner = msg.sender;
              }
          }
          proposalID = 3;
+         /*add proposal winning */
          winnings.push(winnings.length+1);
          proposalsWinning[winnings.length] = proposals[proposalID];
          /* reset mapping and array for the next vote */
