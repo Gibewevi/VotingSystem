@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 import useEthersProvider from "../../../hooks/useEthersProvider";
 import { ethers } from "ethers";
 import Contract from "../../../artifacts/contracts/Voting.sol/Voting.json";
+import { useToast } from "@chakra-ui/react";
 
 export default function Header(props){
     const [sessionStep, setSessionStep] = useState(props.sessionStep);
     const [ownerConnect, setOwnerConnect] = useState(null)
     const { account, provider } = useEthersProvider();
     const [balance, setBalance] = useState(null);
+    const toast = useToast();
 
     useEffect(()=>{
         StepUpdate();
@@ -51,8 +53,23 @@ export default function Header(props){
     const setTalliedStep = async() =>{
         const signer = provider.getSigner();
         const contract = new ethers.Contract(props.contractAddress, Contract.abi, signer);
-        const winner = await contract.winningProposal();
+
+        try{
+            let step = await contract.setSessionStep(3);
+            await step.wait();
+        } catch {
+            toast({
+                description: "Oops... an error occured",
+                status: "error",
+                duration: 4000,
+                isClosable: true
+            });
+        }
+
+        let winner = await contract.winningProposal();
+
     }
+
 
     const StepUpdate = async() => {
         if(props.sessionStep == 0){

@@ -54,6 +54,7 @@ export default function RegisteringVoters(props){
                 duration: 4000,
                 isClosable: true
             });
+            setIsRegister(true);
         }
         catch {
             toast({

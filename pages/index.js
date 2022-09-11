@@ -15,7 +15,7 @@ import { ethers } from "ethers";
 export default function Home() {
 
   const { account, provider } = useEthersProvider();
-  const contractAddress = "0x44766B6794Ef5F56341d8B074e6108c1D3a1648F";
+  const contractAddress = "0x576158B9DEbc644Da47819048087d497C3382403";
   const ownerAddress = "0xeE00566C5F3Fa4397a714667f559852c6Dd8616E";
   const [sessionStep, setSessionStep] = useState(null);
   const [lastProposalWinner, setLastProposalWinner] = useState(null);
@@ -32,7 +32,7 @@ export default function Home() {
   const getDatas = async() => {
     const contract = new ethers.Contract(contractAddress, Contract.abi, provider);
     const winner = await contract.getLastProposalWinning();
-    setLastProposalWinner(winner[1]);
+    setLastProposalWinner(winner[2]);
     let stepBN = await contract.getSessionStep();
     let step = stepBN.toNumber();
     setSessionStep(step);

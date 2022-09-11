@@ -47,8 +47,10 @@ Owner = msg.sender;
     event isRegistering(address _address,bool _isRegistering, bool _hasVoted, uint _votedProposalId);
     event isProposal(uint _proposalID, string _proposal);
     event isVoted(uint _proposalID,address _address);
-    event isWinning(uint _proposalID, string _proposalDescription, uint _voteNumber);
+    event isWinning(uint _proposalID, string _proposalDescription, uint _voteNumber, address _voter);
     event isMint(uint _amount, uint _balanceOf);
+    event getWinning(uint _winningNumber,address _voter, string _lastProposal);
+
 
     /**
     * @notice reward the voter
@@ -195,7 +197,6 @@ Owner = msg.sender;
     *
     */ 
     function winningProposal() public onlyOwner{
-         sessionStep = Step(3);
          uint winningVoteCount = 0;
          uint proposalID = 0;
          for(uint i=0; i< proposals.length; i++){
@@ -207,7 +208,7 @@ Owner = msg.sender;
          winnings.push(winnings.length+1);
          proposalsWinning[winnings.length] = proposals[proposalID];
          /* reset mapping and array for the next vote */
-         emit isWinning(proposalID, proposals[proposalID].description, proposals[proposalID].voteCount);
+         emit isWinning(proposalID, proposals[proposalID].description, proposals[proposalID].voteCount, proposals[proposalID].voter);
          resetAllVotersMapping();
     }
 
@@ -215,8 +216,8 @@ Owner = msg.sender;
     * @notice return last proposal winning
     *
     */ 
-    function getLastProposalWinning() public view returns(uint, string memory){
-        return (winnings.length, proposalsWinning[winnings.length].description);
+    function getLastProposalWinning() public view returns(uint, address, string memory, uint){
+        return (winnings.length, proposalsWinning[winnings.length].voter, proposalsWinning[winnings.length].description, proposalsWinning[winnings.length].voteCount);
     }
 
 }

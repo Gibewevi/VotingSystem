@@ -22,6 +22,10 @@ export default function ProposalsRegistration(props){
         }
     })
 
+    const eventProposalWinning = async() => {
+        const contract = new ethers.Contract(contractAddress, Contract.abi, provider);
+        contract.on()
+    }
 
     const addProposal = async()=>{
         if(ProposalButton){
@@ -69,7 +73,7 @@ export default function ProposalsRegistration(props){
             switch(isRegister) {
                 case false:
                     return (
-                            <div className="w-full border border-slate-250 rounded-lg shadow-lg h-full p-5 flex flex-col">
+                            <div className="w-full mx-auto border border-slate-250 rounded-lg shadow-lg h-full p-5 flex flex-col">
                                 <h1 className="flex flex-row">
                                     <span className="font-bold text-4xl text-slate-800 ">Oh no ! sorry...</span>
                                     <span className=" mx-5 font-semibold text-4xl text-red-600 tracking-wide">You are not registered.</span>
@@ -81,7 +85,7 @@ export default function ProposalsRegistration(props){
                         )
                 case true:
                     return (
-                        <div className="w-2/3 border border-slate-250 rounded-lg shadow-lg h-full p-5 flex flex-col">
+                        <div className="w-2/3 mx-auto border border-slate-250 rounded-lg shadow-lg h-full p-5 flex flex-col">
                             <h1 className="flex flex-row">
                                 <span className="font-bold text-4xl text-slate-800 ">Congratulations!</span>
                                 <span className=" mx-5 font-semibold text-4xl text-teal-600 tracking-wide">You are registered.</span>
