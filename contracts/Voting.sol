@@ -11,16 +11,15 @@ constructor(string memory tokenName, string memory tokenSymbol) ERC20(tokenName,
 Owner = msg.sender;
 }
 
+
     mapping(address => Voter) public voters;
     mapping(uint => Proposal) public proposalsWinning;
 
     // Enum de sessions
     enum Step{
         RegisteringVoters,
-        ProposalsRegistrationStarted,
-        ProposalsRegistrationEnded,
-        VotingSessionStarted,
-        VotingSessionEnded,
+        ProposalsRegistration,
+        VotingSession,
         VotesTallied       
     }
     Step public sessionStep;
@@ -56,7 +55,7 @@ Owner = msg.sender;
     *
     * @param _amount number of tokens offered
     */ 
-    function rewardVote(uint _amount) internal {
+    function rewardVote(uint _amount) public {
         require(!voters[msg.sender].hasVoted,"voters has already voted");
         _mint(msg.sender, _amount);
         uint balance = balanceOf(msg.sender);
@@ -98,13 +97,14 @@ Owner = msg.sender;
     * @notice reset mapping voters/proposals array
     *
     */
-    function resetAllVotersMapping() public {
+    function resetAllVotersMapping() internal {
         for(uint i=0 ; i<= addressVoters.length ; i++){
             voters[addressVoters[i]].isRegistered = false;
             voters[addressVoters[i]].hasVoted = false;
             voters[addressVoters[i]].votedProposalId = 0;
             addressVoters = new address[](0);
         }
+            delete proposals;
     }
 
     /**
@@ -139,7 +139,7 @@ Owner = msg.sender;
     * @param _proposal description.
     */   
     function addProposal(string memory _proposal) public{
-        require(sessionStep==Step.ProposalsRegistrationStarted,"ProposalsRegistrationStarted has not started");
+        require(sessionStep==Step.ProposalsRegistration,"ProposalsRegistrationStarted has not started");
         require(voters[msg.sender].isRegistered, "you are note registered");
         Proposal memory proposal = Proposal(_proposal,0,msg.sender);
         proposals.push(proposal);
@@ -152,7 +152,7 @@ Owner = msg.sender;
     *@param _proposalID voted proposal
     */  
     function voteProposal(uint _proposalID) public {
-        require(sessionStep==Step.VotingSessionStarted,"VotingSessionStarted session has not started");
+        require(sessionStep==Step.VotingSession,"VotingSessionStarted session has not started");
         require(voters[msg.sender].isRegistered,"you are not registered");
         require(_proposalID<=proposals.length,"proposal does not exist");
         require(!voters[msg.sender].hasVoted,"you have already voted");
@@ -187,7 +187,7 @@ Owner = msg.sender;
     * @notice return winning proposal and reset mapping and array
     *
     */ 
-    function winningProposal() public onlyOwner returns(uint){
+    function winningProposal() public onlyOwner{
         require(sessionStep==Step.VotesTallied,"VotesTallied session has not started");
          uint winningVoteCount = 0;
          uint proposalID = 0;
@@ -197,22 +197,19 @@ Owner = msg.sender;
                  winningVoteCount = proposals[i].voteCount;
              }
          }
-         proposalID = 3;
-         /*add proposal winning */
          winnings.push(winnings.length+1);
          proposalsWinning[winnings.length] = proposals[proposalID];
          /* reset mapping and array for the next vote */
-         resetAllVotersMapping();
          emit isWinning(proposalID, proposals[proposalID].description, proposals[proposalID].voteCount);
-         return (proposalID);
+         resetAllVotersMapping();
     }
 
     /**
-    * @notice returns all winning proposals 
+    * @notice return last proposal winning
     *
     */ 
-    function getNumberProposalsWinning() public view returns(uint){
-        return winnings.length;
+    function getLastProposalWinning() public view returns(uint, string memory){
+        return (winnings.length, proposalsWinning[winnings.length].description);
     }
 
 }

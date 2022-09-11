@@ -24,7 +24,8 @@ export default function Header(props){
     })
 
     const winningProposal = async() => {
-        const contract = new ethers.Contract(props.contractAddress, Contract.abi, provider);
+        const signer = provider.getSigner();
+        const contract = new ethers.Contract(props.contractAddress, Contract.abi, signer);
         const winner = await contract.winningProposal();
         console.log("winner "+winner);
     }
@@ -49,11 +50,6 @@ export default function Header(props){
         const signer = provider.getSigner();
         const contract = new ethers.Contract(props.contractAddress, Contract.abi, signer);
         let step = await contract.setSessionStep(numberStep);
-        await step.wait();
-        // return the proposal winner
-        if(step==5){
-            winningProposal();
-        }
     } 
 
     const StepUpdate = () => {
@@ -80,6 +76,7 @@ export default function Header(props){
                         <span className="text-white font-bold">STATUS : {sessionStep}</span>
                     </div>
                     <div className="flex flex-row justify-center items-center">
+                        <button onClick={()=>winningProposal()} className="bg-orange-400">TEST</button>
                         <ButtonMetamask contractAddress={props.contractAddress}/>
                         <button className="bg-teal-400 p-1 px-2 rounded-lg font-bold text-white ml-2">{balance+" VOT"}</button>
                     </div>
