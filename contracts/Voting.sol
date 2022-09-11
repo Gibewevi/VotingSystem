@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract Voting is Ownable, ERC20 {
 address public Owner;
-
+uint private reward = 5 ether;
 constructor(string memory tokenName, string memory tokenSymbol) ERC20(tokenName, tokenSymbol){
 Owner = msg.sender;
 }
@@ -53,15 +53,21 @@ Owner = msg.sender;
     /**
     * @notice reward the voter
     *
-    * @param _amount number of tokens offered
     */ 
-    function rewardVote(uint _amount) public {
+    function rewardVote() private {
         require(!voters[msg.sender].hasVoted,"voters has already voted");
-        _mint(msg.sender, _amount);
+        _mint(msg.sender, reward);
         uint balance = balanceOf(msg.sender);
-        emit isMint(_amount, balance);
+        emit isMint(reward, balance);
     }
 
+    /**
+    * @notice Modify reward
+    *
+    */ 
+    function setReward(uint _amount) public onlyOwner{
+        reward = _amount;
+    }
 
     /**
     * @notice return session step
@@ -139,7 +145,7 @@ Owner = msg.sender;
     * @param _proposal description.
     */   
     function addProposal(string memory _proposal) public{
-        require(sessionStep==Step.ProposalsRegistration,"ProposalsRegistrationStarted has not started");
+        require(sessionStep==Step.ProposalsRegistration,"ProposalsRegistration has not started");
         require(voters[msg.sender].isRegistered, "you are note registered");
         Proposal memory proposal = Proposal(_proposal,0,msg.sender);
         proposals.push(proposal);
@@ -152,10 +158,11 @@ Owner = msg.sender;
     *@param _proposalID voted proposal
     */  
     function voteProposal(uint _proposalID) public {
-        require(sessionStep==Step.VotingSession,"VotingSessionStarted session has not started");
+        require(sessionStep==Step.VotingSession,"VotingSessionsession has not started");
         require(voters[msg.sender].isRegistered,"you are not registered");
         require(_proposalID<=proposals.length,"proposal does not exist");
         require(!voters[msg.sender].hasVoted,"you have already voted");
+        rewardVote();
         voters[msg.sender].hasVoted = true;
         voters[msg.sender].votedProposalId = _proposalID;
         proposals[_proposalID].voteCount++;
@@ -188,7 +195,7 @@ Owner = msg.sender;
     *
     */ 
     function winningProposal() public onlyOwner{
-        require(sessionStep==Step.VotesTallied,"VotesTallied session has not started");
+         sessionStep = Step(3);
          uint winningVoteCount = 0;
          uint proposalID = 0;
          for(uint i=0; i< proposals.length; i++){

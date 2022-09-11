@@ -67,8 +67,7 @@ export default function RegisteringVoters(props){
 
     }
     return(
-            <section className="max-w-7xl mx-auto mt-[125px] flex flex-row justify-center items-center justify-between p-5">
-
+            <section className="max-w-7xl mx-auto mt-[125px] flex flex-col justify-center items-center justify-between p-5">
             {(() => {
             switch(isRegister) {
                 case false:

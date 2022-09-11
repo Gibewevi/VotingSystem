@@ -4,7 +4,7 @@ import Contract from "../../../artifacts/contracts/Voting.sol/Voting.json";
 import { ethers } from "ethers";
 import { useToast } from "@chakra-ui/react";
 
-export default function ProposalsRegistrationStarted(props){
+export default function ProposalsRegistration(props){
     const { account, provider } = useEthersProvider();
     const [isRegister,setIsRegister] = useState(null);
     const [myProposalInput, setMyProposalInput] = useState("");

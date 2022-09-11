@@ -1,4 +1,5 @@
 import ButtonMetamask from "../panel/ButtonMetamask"
+import LastProposalWinner from "../panel/LastProposalWinner";
 import { useEffect, useState } from "react";
 import useEthersProvider from "../../../hooks/useEthersProvider";
 import { ethers } from "ethers";
@@ -23,26 +24,21 @@ export default function Header(props){
         }
     })
 
-    const winningProposal = async() => {
-        const signer = provider.getSigner();
-        const contract = new ethers.Contract(props.contractAddress, Contract.abi, signer);
-        const winner = await contract.winningProposal();
-        console.log("winner "+winner);
-    }
-
-
     const eventIsMint = async() => {
         const contract = new ethers.Contract(props.contractAddress, Contract.abi, provider);
         contract.on("isMint",(amount, balanceOf)=>{
-            console.log("balance "+balanceOf);
-            setBalance(balanceOf);
+            // console.log("balance "+balanceOf);
+        const balance = ethers.utils.formatEther(balanceOf);
+        setBalance(balance);
         })
     }
 
     const balanceOf = async() => {
         const contract = new ethers.Contract(props.contractAddress, Contract.abi, provider);
         const transaction = await contract.balanceOf(account);
-        setBalance(transaction.toNumber());
+        const balance = ethers.utils.formatEther(transaction);
+        console.log(balance);
+        setBalance(balance);
     }
 
     const setStep = async(numberStep)=>{
@@ -52,18 +48,20 @@ export default function Header(props){
         let step = await contract.setSessionStep(numberStep);
     } 
 
-    const StepUpdate = () => {
+    const setTalliedStep = async() =>{
+        const signer = provider.getSigner();
+        const contract = new ethers.Contract(props.contractAddress, Contract.abi, signer);
+        const winner = await contract.winningProposal();
+    }
+
+    const StepUpdate = async() => {
         if(props.sessionStep == 0){
             setSessionStep("Registering Voters");
         } else if(props.sessionStep == 1){
-            setSessionStep("Proposals Registration Started");
+            setSessionStep("Proposals Registration");
         } else if(props.sessionStep == 2){
-            setSessionStep("Proposals Registration Ended");
-        } else if(props.sessionStep == 3){
             setSessionStep("Voting Session Started");
-        } else if(props.sessionStep == 4){
-            setSessionStep("Voting Session Ended");
-        } else if(props.sessionStep == 5){
+        } else if(props.sessionStep == 3){
             setSessionStep("VotesTallied");
         } 
     }
@@ -76,24 +74,22 @@ export default function Header(props){
                         <span className="text-white font-bold">STATUS : {sessionStep}</span>
                     </div>
                     <div className="flex flex-row justify-center items-center">
-                        <button onClick={()=>winningProposal()} className="bg-orange-400">TEST</button>
                         <ButtonMetamask contractAddress={props.contractAddress}/>
                         <button className="bg-teal-400 p-1 px-2 rounded-lg font-bold text-white ml-2">{balance+" VOT"}</button>
                     </div>
                 </div>
                 {ownerConnect ? 
-                <div className="w-full bg-subtle">
-                    <div className="max-w-7xl h-[40px] mx-auto grid grid-cols-6 gap-2">
-                        <button onClick={()=>setStep(0)} className="w-[150px] font-bold text-white text-center p-2">Registering</button>
-                        <button onClick={()=>setStep(1)} className="w-[150px] font-bold text-white text-center p-2">Proposals Started</button>
-                        <button onClick={()=>setStep(2)} className="w-[150px] font-bold text-white text-center p-2">Proposals Ended</button>
-                        <button onClick={()=>setStep(3)} className="w-[150px] font-bold text-white text-center p-2">Voting Started</button>
-                        <button onClick={()=>setStep(4)} className="w-[150px] font-bold text-white text-center p-2">Voting Ended</button>
-                        <button onClick={()=>setStep(5)} className="w-[150px] font-bold text-white text-center p-2">Votes Tallied</button>
+                <div className="w-full bg-teal-500">
+                    <div className="max-w-7xl h-[40px] mx-auto grid grid-cols-4 gap-2">
+                        <button onClick={()=>setStep(0)} className="w-[150px] font-black text-teal-700 text-center p-2">Registering</button>
+                        <button onClick={()=>setStep(1)} className="w-[150px] font-black text-teal-700 text-center p-2">Proposals</button>
+                        <button onClick={()=>setStep(2)} className="w-[150px] font-black text-teal-700 text-center p-2">Voting</button>
+                        <button onClick={()=>setTalliedStep()} className="w-[150px] font-black text-teal-700 text-center p-2">Tallied</button>
                     </div>
                 </div>                
                 : <span></span>
                 }
+                <LastProposalWinner lastProposal={props.lastProposalWinner}/>
                 <div className="h-[300px] bg-header-style w-full">
                     <div className="max-w-7xl mx-auto h-full flex flex-row justify-center">
                         <h1 className="flex flex-col text-center justify-center items-center">

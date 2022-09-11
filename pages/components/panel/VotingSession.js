@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import Contract from "../../../artifacts/contracts/Voting.sol/Voting.json";
 import { render } from "react-dom";
 
-export default function VotingStarted(props){
+export default function VotingSession(props){
     const { account, provider } = useEthersProvider();
     const contractAddress = props.contractAddress;
     const [proposals, setProposals] = useState([]);
@@ -25,19 +25,8 @@ export default function VotingStarted(props){
     const isVote = async(proposalID) => {
         const signer = provider.getSigner();
         const contract = new ethers.Contract(props.contractAddress, Contract.abi, signer);
-        const vote = contract.voteProposal(proposalID);
-
-        contract.on("isVoted",(_proposalID, address)=>{
-            console.log('------ isVoted ------');
-            console.log(_proposalID);
-            console.log(address);
-            console.log('------ isVoted ------');
-            })
+        const vote = await contract.voteProposal(proposalID);
     }
-
-    // const data = proposals.map((proposal) => {
-    //     <p key={proposal.id}>{proposal.description}</p>
-    // });
 
     return(
         <section className="max-w-7xl mx-auto flex flex-row justify-center items-center justify-between p-5">
