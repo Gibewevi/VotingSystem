@@ -8,6 +8,7 @@ export default function VotingSession(props){
     const { account, provider } = useEthersProvider();
     const contractAddress = props.contractAddress;
     const [proposals, setProposals] = useState([]);
+    const [voteLoading, setVoteLoading] = useState(false);
 
     useEffect(()=>{
         if(account){
@@ -20,18 +21,22 @@ export default function VotingSession(props){
         const contract = new ethers.Contract(props.contractAddress, Contract.abi, provider);
         const arrayProposal = await contract.getProposalsArray();
         setProposals(arrayProposal);
+
     }
 
     const isVote = async(proposalID) => {
+        setVoteLoading(true);
         const signer = provider.getSigner();
         const contract = new ethers.Contract(props.contractAddress, Contract.abi, signer);
         const vote = await contract.voteProposal(proposalID);
+        await vote.wait();
+        setVoteLoading(false);
     }
 
+    // <div className="animate-spin mx-3 bg-white w-7 h-7 rounded-full border-[5px] border-zinc-900 border-r-cyan-400"></div>
     return(
         <section className="max-w-7xl mx-auto flex flex-row justify-center items-center justify-between p-5">
-
-            <table className="auto border-separate border-spacing-x-6 border-spacing-y-3 p-2 mt-20">
+             <table className="auto border-separate border-spacing-x-6 border-spacing-y-3 p-2 mt-20">
                 <thead>
                     <th className="p-2 bg-slate-800 rounded-lg shadow-lg text-white font-black text-xl">account</th>
                     <th className="bg-slate-800 rounded-lg shadow-lg text-white font-black text-xl">proposal</th>
@@ -45,8 +50,6 @@ export default function VotingSession(props){
                 </tbody>
                  ))}
             </table>
-          
-    
         </section>
         )
 

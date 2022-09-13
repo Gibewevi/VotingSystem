@@ -106,10 +106,6 @@ export default function ProposalsRegistration(props){
 
                         </div>                     
                         )
-                case null:
-                    return <span>NULL</span>
-                default:
-                return <span>DEFAULT</span>
             }
             })()}
 

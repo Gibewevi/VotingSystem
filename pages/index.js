@@ -56,8 +56,6 @@ export default function Home() {
         <Header sessionStep={sessionStep} ownerAddress={ownerAddress} contractAddress={contractAddress} lastProposalWinner={lastProposalWinner}/>
         {(() => {
           switch(sessionStep) {
-            case null:
-                return <span>CHARGEMENT IMPOSSIBLE</span>
             case 0:
                 return <RegisteringVoters contractAddress={contractAddress}/>
             case 1:
@@ -66,8 +64,6 @@ export default function Home() {
                 return <VotingSession contractAddress={contractAddress}/>
             case 3:
                 return <VotesTallied contractAddress={contractAddress}/>
-            default:
-               return <RegisteringVoters contractAddress={contractAddress}/>
           }
         })()}
       </div>
