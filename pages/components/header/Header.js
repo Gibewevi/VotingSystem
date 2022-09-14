@@ -12,6 +12,7 @@ export default function Header(props){
     const { account, provider } = useEthersProvider();
     const [balance, setBalance] = useState(null);
     const toast = useToast();
+    const [viewBar, setViewBar] = useState(false);
 
     useEffect(()=>{
         StepUpdate();
@@ -83,8 +84,28 @@ export default function Header(props){
         } 
     }
 
+
+    const ViewBar = () => {
+        if(viewBar){
+            setViewBar(false);
+        } else if(viewBar==false){setViewBar(true)}
+    }
+
     return(
             <header className="w-full bg-zinc-900 shadow-xl">
+               <div class={`position absolute top-0 right-0 bg-slate-800 shadow-lg h-full w-[300px] ${viewBar ? 'translate-x-0':'translate-x-full'} ease-in-out duration-300`}>
+                        <button onClick={() => ViewBar()} className="text-slate-900 text-sm font-bold  px-2 absolute top-0 right-0 mr-1 mt-1">X</button>
+                            <div className="bg-white h-[50px] text-center flex justify-center items-center">
+                                <span className="font-bold text-lg">SESSION STEP</span>
+                            </div>
+                            <div className="flex flex-col justify-center items-center text-white">
+                                <button onClick={()=>setStep(0)} className="mt-5 tracking-widest hover:font-black">Registering</button>
+                                <button onClick={()=>setStep(1)} className="mt-5 tracking-widest hover:font-black">Proposals</button>
+                                <button onClick={()=>setStep(2)} className="mt-5 tracking-widest hover:font-black">Voting</button>
+                                <button onClick={()=>setTalliedStep()} className="mt-5 tracking-widest hover:font-black">Tallied</button>
+                            </div>
+                    </div>
+
                 <div className="h-[50px] max-w-7xl mx-auto flex flex-row justify-center justify-between items-center">
                     <div className="flex flex-row justify-center items-center">
                         <div className="animate-spin mx-3 bg-white w-7 h-7 rounded-full border-[5px] border-zinc-900 border-r-cyan-400"></div>
@@ -93,19 +114,11 @@ export default function Header(props){
                     <div className="flex flex-row justify-center items-center">
                         <ButtonMetamask contractAddress={props.contractAddress}/>
                         <button className="bg-teal-400 p-1 px-2 rounded-lg font-bold text-white ml-2">{balance+" VOT"}</button>
+                        <button className="bg-white p-1 mx-2 rounded-md">
+                             <img onClick={()=>ViewBar()} src="./images/gear-fill.svg" className="w-[22px] hover:animate-spin"></img>
+                        </button>
                     </div>
                 </div>
-                {ownerConnect ? 
-                <div className="w-full bg-teal-500">
-                    <div className="max-w-7xl h-[40px] mx-auto grid grid-cols-4 gap-2">
-                        <button onClick={()=>setStep(0)} className="w-[150px] font-black text-teal-700 text-center p-2">Registering</button>
-                        <button onClick={()=>setStep(1)} className="w-[150px] font-black text-teal-700 text-center p-2">Proposals</button>
-                        <button onClick={()=>setStep(2)} className="w-[150px] font-black text-teal-700 text-center p-2">Voting</button>
-                        <button onClick={()=>setTalliedStep()} className="w-[150px] font-black text-teal-700 text-center p-2">Tallied</button>
-                    </div>
-                </div>                
-                : <span></span>
-                }
                 <LastProposalWinner lastProposal={props.lastProposalWinner}/>
                 <div className="h-[300px] bg-header-style w-full">
                     <div className="max-w-7xl mx-auto h-full flex flex-row justify-center">

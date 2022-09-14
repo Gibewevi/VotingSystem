@@ -8,7 +8,6 @@ export default function VotingSession(props){
     const { account, provider } = useEthersProvider();
     const contractAddress = props.contractAddress;
     const [proposals, setProposals] = useState([]);
-    const [voteLoading, setVoteLoading] = useState(false);
 
     useEffect(()=>{
         if(account){
@@ -25,15 +24,12 @@ export default function VotingSession(props){
     }
 
     const isVote = async(proposalID) => {
-        setVoteLoading(true);
         const signer = provider.getSigner();
         const contract = new ethers.Contract(props.contractAddress, Contract.abi, signer);
         const vote = await contract.voteProposal(proposalID);
         await vote.wait();
-        setVoteLoading(false);
     }
 
-    // <div className="animate-spin mx-3 bg-white w-7 h-7 rounded-full border-[5px] border-zinc-900 border-r-cyan-400"></div>
     return(
         <section className="max-w-7xl mx-auto flex flex-row justify-center items-center justify-between p-5">
              <table className="auto border-separate border-spacing-x-6 border-spacing-y-3 p-2 mt-20">
@@ -46,7 +42,7 @@ export default function VotingSession(props){
                 <tbody>
                     <th className="border border-slate-200 shadow-md p-3">{proposal.voter}</th>
                     <th className="border border-slate-200 shadow-md p-3">{proposal.description}</th>
-                    <th><button onClick={()=>isVote(i)} className="shadow-lg bg-teal-400 rounded-lg px-2 p-1 text-white">Vote</button></th>
+                    <th><button onClick={()=>isVote(i)} className="shadow-lg bg-teal-400 rounded-lg px-2 p-1 text-white transition duration-500 hover:scale-105">Vote</button></th>
                 </tbody>
                  ))}
             </table>

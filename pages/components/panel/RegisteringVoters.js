@@ -73,27 +73,27 @@ export default function RegisteringVoters(props){
             switch(isRegister) {
                 case false:
                     return (
-                        <div className="border border-slate-250 rounded-lg shadow-lg h-full w-2/3 p-5 flex flex-col">
-                        <h1 className="font-bold text-4xl text-slate-800 tracking-wider">Getting Started !</h1>
-                        <span className="font-semibold text-2xl text-slate-800 tracking-wider mt-8">Quick and easy.</span>
-                        <div className="flex flex-col">
-                          <span className="mb-2 font-lighter text-xl text-slate-800 tracking-wider mt-5">Participate in your first decentralized vote. It's quick and easy! Connect your</span>
-                          <button className="bg-teal-500 p-1 px-2 rounded-lg font-bold text-white text-xl max-w-[120px]">Metamask</button>
-                          <span className="font-lighter text-xl text-slate-800 tracking-wider mt-5">Sign up for the whitelist to participate in the next vote!</span>
-                        </div>
+                        <div className="border border-slate-250 rounded-lg shadow-lg h-full w-2/3 p-5 flex flex-col transition duration-500 hover:scale-105 hover:-translate-y-6">
+                                <h1 className="font-bold text-4xl text-slate-800 tracking-wider">Getting Started !</h1>
+                                <span className="font-semibold text-2xl text-slate-800 tracking-wider mt-8">Quick and easy.</span>
+                            <div className="flex flex-col">
+                                 <span className="mb-2 font-lighter text-xl text-slate-800 tracking-wider mt-5">Participate in your first decentralized vote. It's quick and easy! Connect your</span>
+                                 <button className="bg-teal-500 p-1 px-2 rounded-lg font-bold text-white text-xl max-w-[120px]">Metamask</button>
+                                 <span className="font-lighter text-xl text-slate-800 tracking-wider mt-5">Sign up for the whitelist to participate in the next vote!</span>
+                            </div>
     
-                        <div className="mt-5">
-                            {buttonAccount ? 
-                            <button onClick={RegisteringVoters} className="float-right mr-3 bg-sky-500 max-w-[120px] p-2 rounded-lg font-black text-lg text-white">Registering</button>
-                            :
-                            <span></span>}
-                        </div>
+                            <div className="mt-5">
+                                {buttonAccount ? 
+                                <button onClick={RegisteringVoters} className="float-right mr-3 bg-sky-500 hover:bg-sky-700 max-w-[120px] p-2 rounded-lg font-black text-lg text-white">Registering</button>
+                                 :
+                                 <span></span>}
+                             </div>
     
-                    </div>                         
+                        </div>                         
                         )
                 case true:
                     return (
-                        <div className="border border-slate-250 rounded-lg shadow-lg h-full w-2/3 p-5 flex flex-col">
+                        <div className="border border-slate-250 rounded-lg shadow-lg h-full w-2/3 p-5 flex flex-col transition duration-500 hover:scale-105 hover:-translate-y-6">
                             <div className="flex flex-row">
                                  <h1 className="font-bold text-4xl text-slate-800 tracking-wider">Getting Started !</h1>
                                  <img src="./images/send.svg" className="w-8 h-8 mt-1 mx-2"></img>
