@@ -93,7 +93,7 @@ export default function Header(props){
 
     return(
             <header className="w-full bg-zinc-900 shadow-xl">
-               <div class={`position absolute top-0 right-0 bg-slate-800 shadow-lg h-full w-[300px] ${viewBar ? 'translate-x-0':'translate-x-full'} ease-in-out duration-300`}>
+               <div class={`position absolute top-0 right-0 z-40 bg-slate-800 shadow-lg h-full w-[300px] ${viewBar ? 'translate-x-0':'translate-x-full'} ease-in-out duration-300`}>
                         <button onClick={() => ViewBar()} className="text-slate-900 text-sm font-bold  px-2 absolute top-0 right-0 mr-1 mt-1">X</button>
                             <div className="bg-white h-[50px] text-center flex justify-center items-center">
                                 <span className="font-bold text-lg">SESSION STEP</span>
@@ -113,27 +113,29 @@ export default function Header(props){
                     </div>
                     <div className="flex flex-row justify-center items-center">
                         <ButtonMetamask contractAddress={props.contractAddress}/>
-                        <button className="bg-teal-400 p-1 px-2 rounded-lg font-bold text-white ml-2">{balance+" VOT"}</button>
+                        <button className="text-sm sm:text-lg bg-teal-400 p-1 px-2 rounded-lg font-bold text-white ml-2">{balance+" VOT"}</button>
                         <button className="bg-white p-1 mx-2 rounded-md">
-                             <img onClick={()=>ViewBar()} src="./images/gear-fill.svg" className="w-[22px] hover:animate-spin"></img>
+                             <img onClick={()=>ViewBar()} src="./images/gear-fill.svg" className="z-0 w-[20px] md:w-[28px] hover:animate-spin"></img>
                         </button>
                     </div>
                 </div>
                 <LastProposalWinner lastProposal={props.lastProposalWinner}/>
                 <div className="h-[300px] bg-header-style w-full">
-                    <div className="max-w-7xl mx-auto h-full flex flex-row justify-center">
-                        <h1 className="flex flex-col text-center justify-center items-center">
-                            <div className="flex flex-row h-[80px] justify-center items-center">
-                                <h1 className="flex flex-row justify-center items-center h-[80px]">
-                                     <span className="font-black text-6xl text-slate-700 ">!</span>
-                                     <span className="font-black text-6xl text-white ">VOTE</span>
-                                     <span className="font-black text-7xl text-slate-700 mx-4  mb-1">IT</span>
-                                </h1>
+                    <div className="max-w-7xl mx-auto h-full flex flex-col justify-center items-center relative">
+                            <div className="flex flex-col text-center justify-center items-center">
+                                    <h1 className="flex flex-row justify-center items-center h-[80px]">
+                                        <span className="text-3xl lg:text-6xl font-black text-slate-700 ">!</span>
+                                        <span className="text-4xl lg:text-6xl font-black text-white ">VOTE</span>
+                                        <span className="text-4xl lg:text-7xl font-black text-slate-700 mx-4  mb-1">IT</span>
+                                    </h1>
+                                <span className="text-2xl md:text-5xl font-black text-white">BLOCKCHAIN VOTING SYSTEM</span>
+                                <span className="font-lighter text-xl tracking-widest ">WEB3 DECENTRALIZED</span>
                             </div>
-                            <span className="font-black text-5xl text-white">BLOCKCHAIN VOTING SYSTEM</span>
-                            <span className="font-lighter text-xl tracking-widest ">WEB3 DECENTRALIZED</span>
-                        </h1>
-                       <img src="./images/decentralized.png" className="w-[400px] h-[425px]"></img>
+                        <div className="mx-auto h-10 absolute -bottom-5 mx-auto">
+                            <button className="bg-white rounded-full mx-auto shadow-md animate-bounce delay-150 duration-300">
+                                <img src="./images/arrow.svg" className="w-[45px]"></img>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </header>

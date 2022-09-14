@@ -73,6 +73,6 @@ export default function ButtonMetamask(props){
     }
 
     return(
-        <button onClick={() => connectWallet()} className="bg-white p-1 px-2 rounded-lg font-bold text-orange-800 transition duration-150 hover:scale-105">{buttonConnect ? buttonAccount : "Metamask"}</button>
+        <button onClick={() => connectWallet()} className="text-sm sm:text-lg bg-white p-1 px-2 rounded-lg font-bold text-orange-800 transition duration-150 hover:scale-105">{buttonConnect ? buttonAccount : "Metamask"}</button>
     )
 }
