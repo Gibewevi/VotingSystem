@@ -5,6 +5,7 @@ import useEthersProvider from "../../../hooks/useEthersProvider";
 import { ethers } from "ethers";
 import Contract from "../../../artifacts/contracts/Voting.sol/Voting.json";
 import { useToast } from "@chakra-ui/react";
+import Image from "next/image";
 
 export default function Header(props){
     const [sessionStep, setSessionStep] = useState(props.sessionStep);
@@ -25,7 +26,8 @@ export default function Header(props){
             balanceOf(),
             eventIsMint()
         }
-    })
+
+    },[account])
 
     const eventIsMint = async() => {
         const contract = new ethers.Contract(props.contractAddress, Contract.abi, provider);
@@ -93,7 +95,7 @@ export default function Header(props){
 
     return(
             <header className="w-full bg-zinc-900 shadow-xl">
-               <div class={`position absolute top-0 right-0 z-40 bg-slate-800 shadow-lg h-full w-[300px] ${viewBar ? 'translate-x-0':'translate-x-full'} ease-in-out duration-300`}>
+               <div className={`position absolute top-0 right-0 z-40 bg-slate-800 shadow-lg h-full w-[300px] ${viewBar ? 'translate-x-0':'translate-x-full'} ease-in-out duration-300`}>
                         <button onClick={() => ViewBar()} className="text-slate-900 text-sm font-bold  px-2 absolute top-0 right-0 mr-1 mt-1">X</button>
                             <div className="bg-white h-[50px] text-center flex justify-center items-center">
                                 <span className="font-bold text-lg">SESSION STEP</span>
@@ -115,7 +117,9 @@ export default function Header(props){
                         <ButtonMetamask contractAddress={props.contractAddress}/>
                         <button className="text-sm sm:text-lg bg-teal-400 p-1 px-2 rounded-lg font-bold text-white ml-2">{balance+" VOT"}</button>
                         <button className="bg-white p-1 mx-2 rounded-md">
-                             <img onClick={()=>ViewBar()} src="./images/gear-fill.svg" className="z-0 w-[20px] md:w-[28px] hover:animate-spin"></img>
+                            <picture>
+                                  <img onClick={()=>ViewBar()} src="./images/gear-fill.svg" alt="gear" className="z-0 w-[20px] md:w-[28px] hover:animate-spin"></img>
+                            </picture>
                         </button>
                     </div>
                 </div>
@@ -133,7 +137,9 @@ export default function Header(props){
                             </div>
                         <div className="mx-auto h-10 absolute -bottom-5 mx-auto">
                             <button className="bg-white rounded-full mx-auto shadow-md animate-bounce delay-150 duration-300">
-                                <img src="./images/arrow.svg" className="w-[45px]"></img>
+                                <picture>
+                                    <img alt="arrow" src="./images/arrow.svg" className="w-[45px]"></img>
+                                </picture>
                             </button>
                         </div>
                     </div>

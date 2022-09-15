@@ -39,7 +39,7 @@ export default function VotesTallied(props){
     }
 
     return(
-            <section class="max-w-7xl mx-auto h-[300px] mt-[115px]">
+            <section className="max-w-7xl mx-auto h-[300px] mt-[115px]">
                 <div className="max-w-4xl h-[300px] mx-auto items-center justify-center rounded-md shadow-lg border flex flex-row">
                     <div className="flex flex-col justify-center items-center">
                         <h2 className="font-black text-center text-5xl text-teal-600">WINNER IS !</h2>
@@ -50,7 +50,9 @@ export default function VotesTallied(props){
                         </div>
                     </div>
                     <div className="ml-6">
-                        <img src="./images/save.svg" className="w-[100px]"></img>
+                        <picture>
+                             <img src="./images/save.svg" alt="save" className="w-[100px]"></img>
+                        </picture>
                     </div>
                 </div>
             </section>

@@ -39,7 +39,7 @@ export default function VotingSession(props){
                     <th className="bg-teal-600 rounded-lg shadow-lg text-white font-black text-xl">voting</th>
                 </thead>
                 {proposals.map((proposal,i) => (  
-                <tbody>
+                <tbody key={proposal.id}>
                     <th className="border border-slate-200 shadow-md p-3">{proposal.voter}</th>
                     <th className="border border-slate-200 shadow-md p-3">{proposal.description}</th>
                     <th><button onClick={()=>isVote(i)} className="shadow-lg bg-teal-400 rounded-lg px-2 p-1 text-white transition duration-500 hover:scale-105">Vote</button></th>

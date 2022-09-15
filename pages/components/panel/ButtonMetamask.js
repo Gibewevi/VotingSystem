@@ -15,13 +15,13 @@ export default function ButtonMetamask(props){
     const toast = useToast();
     const OWNER = 0xeE00566C5F3Fa4397a714667f559852c6Dd8616E;
 
-
     useEffect(()=>{
         if(account){
             setButtonConnect(true);
             voterNameInButtonMetamask();
         } else(setButtonConnect(false))
-    })
+        
+    },[account])
 
     function voterNameInButtonMetamask(){
         if(account==OWNER){
