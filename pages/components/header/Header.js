@@ -5,7 +5,6 @@ import useEthersProvider from "../../../hooks/useEthersProvider";
 import { ethers } from "ethers";
 import Contract from "../../../artifacts/contracts/Voting.sol/Voting.json";
 import { useToast } from "@chakra-ui/react";
-import Image from "next/image";
 
 export default function Header(props){
     const [sessionStep, setSessionStep] = useState(props.sessionStep);
