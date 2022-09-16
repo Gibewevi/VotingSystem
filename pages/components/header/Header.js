@@ -7,19 +7,27 @@ import Contract from "../../../artifacts/contracts/Voting.sol/Voting.json";
 import { useToast } from "@chakra-ui/react";
 
 export default function Header(props){
+    //useState step session
     const [sessionStep, setSessionStep] = useState(props.sessionStep);
+    //useState connect
     const [ownerConnect, setOwnerConnect] = useState(null)
+    // account / provider
     const { account, provider } = useEthersProvider();
+    // balance
     const [balance, setBalance] = useState(null);
     const toast = useToast();
+    // view bar
     const [viewBar, setViewBar] = useState(false);
 
     useEffect(()=>{
+        //step session update
         StepUpdate();
+        // connect owner
         if(account==props.ownerAddress){
             setOwnerConnect(true),
             balanceOf(),
             eventIsMint()
+            //connect anoter account
         } else if(account){
             setOwnerConnect(false),
             balanceOf(),
@@ -28,6 +36,7 @@ export default function Header(props){
 
     },[account])
 
+    //event mint token
     const eventIsMint = async() => {
         const contract = new ethers.Contract(props.contractAddress, Contract.abi, provider);
         contract.on("isMint",(amount, balanceOf)=>{
@@ -37,6 +46,7 @@ export default function Header(props){
         })
     }
 
+    // balance
     const balanceOf = async() => {
         const contract = new ethers.Contract(props.contractAddress, Contract.abi, provider);
         const transaction = await contract.balanceOf(account);
@@ -45,6 +55,7 @@ export default function Header(props){
         setBalance(balance);
     }
 
+    // step
     const setStep = async(numberStep)=>{
 
         const signer = provider.getSigner();
@@ -52,6 +63,7 @@ export default function Header(props){
         let step = await contract.setSessionStep(numberStep);
     } 
 
+    // Tallied step
     const setTalliedStep = async() =>{
         const signer = provider.getSigner();
         const contract = new ethers.Contract(props.contractAddress, Contract.abi, signer);
@@ -72,7 +84,7 @@ export default function Header(props){
 
     }
 
-
+    //step update
     const StepUpdate = async() => {
         if(props.sessionStep == 0){
             setSessionStep("Registering Voters");
@@ -85,7 +97,7 @@ export default function Header(props){
         } 
     }
 
-
+    // viewbar
     const ViewBar = () => {
         if(viewBar){
             setViewBar(false);

@@ -5,16 +5,19 @@ import Contract from "../../../artifacts/contracts/Voting.sol/Voting.json";
 import { render } from "react-dom";
 
 export default function VotingSession(props){
+    // provider / account
     const { account, provider } = useEthersProvider();
     const contractAddress = props.contractAddress;
     const [proposals, setProposals] = useState([]);
 
     useEffect(()=>{
+        // connect
         if(account){
             ProposalArray();
         }
     })
 
+    // proposal array
     const ProposalArray = async()=>{
         const signer = provider.getSigner();
         const contract = new ethers.Contract(props.contractAddress, Contract.abi, provider);
@@ -23,6 +26,7 @@ export default function VotingSession(props){
 
     }
 
+    // voting
     const isVote = async(proposalID) => {
         const signer = provider.getSigner();
         const contract = new ethers.Contract(props.contractAddress, Contract.abi, signer);

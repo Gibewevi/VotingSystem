@@ -5,9 +5,11 @@ import Contract from "../../../artifacts/contracts/Voting.sol/Voting.json";
 import { use } from "chai";
 
 export default function VotesTallied(props){
-    
+    // account / provider
     const { account, provider } = useEthersProvider();
     const contractAddress = props.contractAddress;
+    
+    // useState proposal/voteCount/Address
     const [proposalWinner, setProposalWinner] = useState();
     const [voteCount, setVoteCount] = useState(null);
     const [voterAddress, setVoterAddress] = useState(null);
@@ -20,15 +22,20 @@ export default function VotesTallied(props){
         }
     })
 
+    // event winning 
     const eventProposalWinning = async() => {
         const contract = new ethers.Contract(props.contractAddress, Contract.abi, provider);
         contract.on("isWinning",(proposalID, description, votecount, voterAddress)=>{
+        // to register proposal useState
         setProposalWinner(description);
+        // to register vote count useState
         setVoteCount(votecount);
+        // to register address useState
         setVoterAddress(voterAddress);
         })
     }
 
+    //last winner
     const getLastWinner = async() => {
         const signer = provider.getSigner();
         const contract = new ethers.Contract(props.contractAddress, Contract.abi, signer);

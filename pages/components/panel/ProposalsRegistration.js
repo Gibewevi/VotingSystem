@@ -7,31 +7,40 @@ import { useToast } from "@chakra-ui/react";
 export default function ProposalsRegistration(props){
     const { account, provider } = useEthersProvider();
     const [isRegister,setIsRegister] = useState(null);
+
+    // proposal
     const [myProposalInput, setMyProposalInput] = useState("");
+    // proposal valid button
     const [ProposalButton, setProposalButton] = useState(false);
     const toast = useToast();
 
+    // proposal input
     function getInputValue(val){
         setMyProposalInput(val.target.value)
     }
 
     useEffect(()=>{
+        // connect account
         if(account){
              getIsRegister();
              addProposal();
         }
     })
 
+    // event winning
     const eventProposalWinning = async() => {
         const contract = new ethers.Contract(contractAddress, Contract.abi, provider);
         contract.on()
     }
 
+    // proposal
     const addProposal = async()=>{
         if(ProposalButton){
             sendProposal();
         }
     }
+
+    // send proposal
     const sendProposal = async()=> {
             const signer = provider.getSigner();
             const contract = new ethers.Contract(props.contractAddress, Contract.abi, signer);
@@ -59,6 +68,7 @@ export default function ProposalsRegistration(props){
             }
     }
 
+    // verify register
     const getIsRegister = async() => {
         const signer = provider.getSigner();
         const contract = new ethers.Contract(props.contractAddress, Contract.abi, provider);

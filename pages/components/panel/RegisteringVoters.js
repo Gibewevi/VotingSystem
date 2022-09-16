@@ -55,6 +55,7 @@ export default function RegisteringVoters(props){
                 duration: 4000,
                 isClosable: true
             });
+            // valid register
             setIsRegister(true);
         }
         catch {

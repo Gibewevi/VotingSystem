@@ -14,21 +14,29 @@ import { ethers } from "ethers";
 
 export default function Home() {
 
+  // UseState account / provider
   const { account, provider } = useEthersProvider();
+  // contract
   const contractAddress = "0x576158B9DEbc644Da47819048087d497C3382403";
+  // owner
   const ownerAddress = "0xeE00566C5F3Fa4397a714667f559852c6Dd8616E";
+  // stepsession
   const [sessionStep, setSessionStep] = useState(null);
+  // last proposal
   const [lastProposalWinner, setLastProposalWinner] = useState(null);
 
   useEffect(()=>{
+    // connect
     if(account) {
+    //step
     checkStep();
+    // data
     getDatas();
     }
   })
   
 
-  // Initialisation step session
+  // Step / last proposal
   const getDatas = async() => {
     const contract = new ethers.Contract(contractAddress, Contract.abi, provider);
     const winner = await contract.getLastProposalWinning();
@@ -39,7 +47,7 @@ export default function Home() {
   }
 
 
-  // Update stepSession
+  // Update step
   const checkStep = async() => {
     const contract = new ethers.Contract(contractAddress, Contract.abi, provider);
       contract.on("isStep",(step)=>{
@@ -55,6 +63,7 @@ export default function Home() {
       <div className='min-h-screen'>
         <Header sessionStep={sessionStep} ownerAddress={ownerAddress} contractAddress={contractAddress} lastProposalWinner={lastProposalWinner}/>
         {(() => {
+        // switch step component
           switch(sessionStep) {
             case 0:
                 return <RegisteringVoters contractAddress={contractAddress}/>
