@@ -5,8 +5,10 @@ import useEthersProvider from "../../../hooks/useEthersProvider";
 import { ethers } from "ethers";
 import Contract from "../../../artifacts/contracts/Voting.sol/Voting.json";
 import { useToast } from "@chakra-ui/react";
+import { gsap } from "gsap";
 
 export default function Header(props){
+
     //useState step session
     const [sessionStep, setSessionStep] = useState(props.sessionStep);
     //useState connect
@@ -18,7 +20,8 @@ export default function Header(props){
     const toast = useToast();
     // view bar
     const [viewBar, setViewBar] = useState(false);
-
+    // GSAP animation
+    const timeline = gsap.timeline({defaults : {ease: "SlowMo.easeOut"}});
     useEffect(()=>{
         //step session update
         StepUpdate();
@@ -33,6 +36,10 @@ export default function Header(props){
             balanceOf(),
             eventIsMint()
         }
+    timeline
+    .to("#h1-voteit",{y: '0%', duration:1.2},'start')
+    .to("#h1-blockchain",{y: '0%', duration:0.8}, 'start')
+    .to("#span-web3",{opacity:"100%", duration:0.5, stagger: 0.2});
 
     },[account])
 
@@ -138,13 +145,18 @@ export default function Header(props){
                 <div className="h-[300px] bg-header-style w-full">
                     <div className="max-w-7xl mx-auto h-full flex flex-col justify-center items-center relative">
                             <div className="flex flex-col text-center justify-center items-center">
-                                    <h1 className="flex flex-row justify-center items-center h-[80px]">
-                                        <span className="text-3xl lg:text-6xl font-black text-slate-700 ">!</span>
-                                        <span className="text-4xl lg:text-6xl font-black text-white ">VOTE</span>
-                                        <span className="text-4xl lg:text-7xl font-black text-slate-700 mx-4  mb-1">IT</span>
+
+                                    <h1 className="flex flex-row justify-center items-center h-[60px] overflow-hidden">
+                                        <span id="h1-voteit"  className="text-3xl lg:text-6xl font-black text-slate-700 translate-y-[80%]">!</span>
+                                        <span id="h1-voteit"  className="text-4xl lg:text-6xl font-black text-white translate-y-[80%]">VOTE</span>
+                                        <span id="h1-voteit"  className="text-4xl lg:text-7xl font-black text-slate-700 mx-4 mb-1 translate-y-[80%]">IT</span>
                                     </h1>
-                                <span className="text-2xl md:text-5xl font-black text-white">BLOCKCHAIN VOTING SYSTEM</span>
-                                <span className="font-lighter text-xl tracking-widest ">WEB3 DECENTRALIZED</span>
+
+                                    <h1 className="flex flex-row justify-center items-center h-[50px] overflow-hidden">
+                                         <span id="h1-blockchain" className="text-2xl md:text-5xl font-black text-white mb-1 -translate-y-[90%]">BLOCKCHAIN VOTING SYSTEM</span>
+                                    </h1>
+
+                                <span id="span-web3" className="font-lighter text-xl tracking-widest opacity-[0%]">WEB3 DECENTRALIZED</span>
                             </div>
                         <div className="mx-auto h-10 absolute -bottom-5 mx-auto">
                             <button className="bg-white rounded-full mx-auto shadow-md animate-bounce delay-150 duration-300">
