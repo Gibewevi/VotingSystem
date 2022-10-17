@@ -11,6 +11,7 @@ import Footer from './components/Footer';
 import Contract from "../artifacts/contracts/Voting.sol/Voting.json";
 import useEthersProvider from '../hooks/useEthersProvider';
 import { ethers } from "ethers";
+import Gsap from './components/Gsap';
 
 export default function Home() {
 
@@ -61,6 +62,7 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <div className='min-h-screen'>
+        <Gsap />
         <Header sessionStep={sessionStep} ownerAddress={ownerAddress} contractAddress={contractAddress} lastProposalWinner={lastProposalWinner}/>
         {(() => {
         // switch step component
