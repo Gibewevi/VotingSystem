@@ -25,10 +25,14 @@ export default function Gsap(){
         .to("#text-2",{autoAlpha:1, x:0, duration: 0.5, ease: "power4.out"})
         .to("#text-2",{autoAlpha:1, y:125, duration: 0.2, delay:0.5})
         .to("#content",{autoAlpha:1, duration:0.5, height:'300px', y:0})
-        .to("#header",{autoAlpha:1, duration:0.5, y:0})
+        .to("#header",{autoAlpha:1, y:0, duration:0.5, y:0})
         .to("#button_1",{autoAlpha:1, y:0},'-=0.4')
         .to("#button_2",{autoAlpha:1, y:0},'-=0.2')
         .to("#button_3",{autoAlpha:1, y:0},'-=0.2')
+        .to("#lastProposal", {autoAlpha:1, y:0},'-=0.2')
+        .to('#decentralized', {y:0},'-=0.4')
+        .to('#votingSystem', {y:0}, '<')
+        .to('#underline', {autoAlpha:1, width:'66%', duration:1, ease: "power4.out"},'-=0.2')
         
     })
 }
